@@ -22,7 +22,10 @@
     "maze-generator": "bin/maze-generator-js.js"
   },
   "main": "./dist/index.js",
-  "typings": "./dist/index.d.ts",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "readmeFilename": "README.md",
   "devDependencies": {
     "prettier": "^1.16.4",
