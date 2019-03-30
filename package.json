@@ -1,7 +1,31 @@
 {
   "name": "maze-generator",
   "version": "1.0.0",
-  "author": "Michael Moore <miketmoore@gmail.com>",
+  "dist-tags": {
+    "latest": "1.0.0"
+  },
+  "repository": {
+    "url": "https://github.com/miketmoore/maze-generator-js",
+    "type": "git"
+  },
+  "maintainers": [
+    {
+      "name": "Michael Moore",
+      "email": "miketmoore@gmail.com"
+    }
+  ],
+  "keywords": [
+    "maze"
+  ],
+  "author": {
+    "name": "Michael Moore",
+    "email": "miketmoore@gmail.com"
+  },
+  "bin": {
+    "maze-generator": "bin/maze-generator-js.js"
+  },
+  "main": "index.js",
+  "readmeFilename": "README.md",
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",
     "prettier": "^1.16.4",
