@@ -1,4 +1,3 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin')
 var path = require('path')
 
 module.exports = {
@@ -21,16 +20,5 @@ module.exports = {
 
       { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' }
     ]
-  },
-
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/index.html'
-    })
-  ],
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true,
-    port: 9000
   }
 }
