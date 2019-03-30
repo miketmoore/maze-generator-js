@@ -1,9 +1,6 @@
 {
   "name": "@miketmoore/maze-generator",
   "version": "1.0.0",
-  "dist-tags": {
-    "latest": "1.0.0"
-  },
   "repository": {
     "url": "https://github.com/miketmoore/maze-generator-js",
     "type": "git"
@@ -27,16 +24,12 @@
   "main": "index.js",
   "readmeFilename": "README.md",
   "devDependencies": {
-    "awesome-typescript-loader": "^5.2.1",
     "prettier": "^1.16.4",
-    "source-map-loader": "^0.2.4",
-    "typescript": "^3.3.4000",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
+    "typescript": "^3.3.4000"
   },
   "scripts": {
-    "build": "webpack --mode=development",
-    "format": "prettier --write \"**/*.{ts,js,css,scss,json,md,yml}\""
+    "build": "tsc",
+    "format": "prettier --write \"**/*.{ts,js,json,md,yml}\""
   },
   "prettier": {
     "semi": false,
