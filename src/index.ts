@@ -1,28 +1,27 @@
 import { gridFactory } from './grid'
 import { carveMaze } from './carve-maze'
 
-interface Options {
-  readonly rows: number
-  readonly cols: number
-}
-
 class MazeGen {
   private rows: number
   private cols: number
-  constructor(options: Options) {
-    if (!options.rows) {
+  constructor(rows: number, cols: number) {
+    if (typeof rows !== 'number') {
       throw new Error('rows is required')
     }
-    if (!options.cols) {
+    if (typeof cols !== 'number') {
       throw new Error('cols is required')
     }
-    this.rows = options.rows
-    this.cols = options.cols
+    this.rows = rows
+    this.cols = cols
   }
-  public generate = () => carveMaze(gridFactory(this.rows, this.cols))
+  public generate = () => {
+    const grid = gridFactory(this.rows, this.cols)
+    carveMaze(grid)
+    return grid
+  }
 }
 
-export const mazeGenerator = (options: Options) => {
-  const mazeGen = new MazeGen(options)
+export const mazeGenerator = (rows: number, cols: number) => {
+  const mazeGen = new MazeGen(rows, cols)
   return mazeGen.generate()
 }

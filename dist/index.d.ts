@@ -1,6 +1,1 @@
-interface Options {
-    readonly rows: number;
-    readonly cols: number;
-}
-export declare const mazeGenerator: (options: Options) => void;
-export {};
+export declare const mazeGenerator: (rows: number, cols: number) => import("./grid").IGrid;
