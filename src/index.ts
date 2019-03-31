@@ -2,7 +2,7 @@ import { gridFactory, IGrid } from './grid'
 import { carveMaze } from './carve-maze'
 
 export { IGrid } from './grid'
-export { ICell } from './Cell'
+export { ICell } from './cell'
 
 interface Params {
   readonly rows: number
