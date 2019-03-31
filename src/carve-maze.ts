@@ -5,7 +5,7 @@ import { randInRange } from './rand'
 import { Direction } from './direction'
 import { ICoord } from './coord'
 
-type Strategy = 'recursive-backtracking' | 'strategy-b'
+export type Strategy = 'recursive-backtracking' | 'strategy-b'
 
 export function carveMaze(
   grid: IGrid,

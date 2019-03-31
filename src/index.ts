@@ -1,5 +1,5 @@
 import { gridFactory, IGrid } from './grid'
-import { carveMaze } from './carve-maze'
+import { carveMaze, Strategy } from './carve-maze'
 
 export { IGrid } from './grid'
 export { ICell } from './cell'
@@ -14,7 +14,10 @@ const isObject = (obj: any) => {
   return type === 'function' || (type === 'object' && !!obj)
 }
 
-export const mazeGenerator: (params: Params) => IGrid = (params: Params) => {
+export const mazeGenerator: (params: Params, strategy: Strategy) => IGrid = (
+  params,
+  strategy
+) => {
   if (Array.isArray(params) || !isObject(params)) {
     throw new Error('params must be an object')
   }
@@ -32,6 +35,6 @@ export const mazeGenerator: (params: Params) => IGrid = (params: Params) => {
     throw new Error('columns must be a positive integer')
   }
   const grid = gridFactory(rows, columns)
-  carveMaze(grid)
+  carveMaze(grid, strategy)
   return grid
 }
