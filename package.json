@@ -1,6 +1,6 @@
 {
   "name": "@miketmoore/maze-generator",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "repository": {
     "url": "https://github.com/miketmoore/maze-generator-js",
     "type": "git"
