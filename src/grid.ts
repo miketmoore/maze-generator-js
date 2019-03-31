@@ -10,6 +10,7 @@ export interface IGrid {
     direction: Direction,
     coord: ICoord
   ) => ICell | undefined
+  readonly getRandCoord: () => ICoord
   readonly getRandCell: () => ICell
 }
 
@@ -79,7 +80,7 @@ class Grid implements IGrid {
     return this.rowInBounds(coord.row) && this.colInBounds(coord.col)
   }
 
-  private getRandCoord = () =>
+  public getRandCoord = () =>
     coordFactory(randInRange(0, this.rows - 1), randInRange(0, this.cols - 1))
 
   public getRandCell = () => {

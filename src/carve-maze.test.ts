@@ -17,10 +17,10 @@ describe('recursive-backtracking', () => {
   })
 })
 
-describe('iteration', () => {
+describe('strategy-b', () => {
   test('all cells should be carved', () => {
     const grid = gridFactory(4, 4)
-    carveMaze(grid, 'iteration')
+    carveMaze(grid, 'strategy-b')
     let count = 0
     grid.forEachRow(row => {
       row.forEach(cell => {

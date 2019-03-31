@@ -5,6 +5,7 @@ import { ICell } from './cell'
 import { Wall } from './walls'
 
 export interface ICarveableGrid {
+  readonly getGrid: () => IGrid
   readonly getCell: (coord: ICoord) => ICell | undefined
   readonly getAvailableCellWalls: (cell: ICell, cellCoord: ICoord) => Wall[]
   readonly getAdjacentCell: (
@@ -19,6 +20,7 @@ class CarveableGrid implements ICarveableGrid {
   constructor(grid: IGrid) {
     this.grid = grid
   }
+  public getGrid = () => this.grid
   public getCell = (coord: ICoord) => this.grid.getCell(coord)
   public getAdjacentCell = (direction: Direction, coord: ICoord) =>
     this.grid.getAdjacentCell(direction, coord)
