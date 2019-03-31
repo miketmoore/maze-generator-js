@@ -1,5 +1,8 @@
-import { gridFactory } from './grid'
+import { gridFactory, IGrid } from './grid'
 import { carveMaze } from './carve-maze'
+
+export { IGrid } from './grid'
+export { ICell } from './Cell'
 
 interface Params {
   readonly rows: number
@@ -11,7 +14,7 @@ const isObject = (obj: any) => {
   return type === 'function' || (type === 'object' && !!obj)
 }
 
-export const mazeGenerator = (params: Params) => {
+export const mazeGenerator: (params: Params) => IGrid = (params: Params) => {
   if (Array.isArray(params) || !isObject(params)) {
     throw new Error('params must be an object')
   }

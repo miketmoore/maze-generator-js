@@ -3,6 +3,7 @@ import { ICell } from './cell'
 import { carveGridFactory, ICarveableGrid } from './carveable-grid'
 import { randInRange } from './rand'
 import { Direction } from './direction'
+import { ICoord } from './coord'
 
 type Strategy = 'recursive-backtracking' | 'iteration'
 
@@ -41,7 +42,6 @@ function carveRecursiveBacktracking(
   // get list of walls not carved yet, that point to adjacent cells that have not been visited yet
   const walls = carveableGrid.getAvailableCellWalls(cell, cell.getCoord())
 
-  // get random wall from results
   if (walls.length === 0) {
     if (history.length >= 2) {
       const backtrackedCell = history.pop()
@@ -81,7 +81,6 @@ function carveIteration(carveableGrid: ICarveableGrid, history: ICell[]): void {
   // get list of walls not carved yet, that point to adjacent cells that have not been visited yet
   const walls = carveableGrid.getAvailableCellWalls(cell, cell.getCoord())
 
-  // get random wall from results
   if (walls.length === 0) {
     if (history.length >= 2) {
       const backtrackedCell = history.pop()
