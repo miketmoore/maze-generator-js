@@ -12,26 +12,14 @@ export class Wall {
 
 const wallFactory = (direction: Direction) => new Wall(direction)
 
-// type Walls = Record<Direction, Wall>
 export interface IWalls {
   readonly north: Wall
   readonly east: Wall
   readonly south: Wall
   readonly west: Wall
   readonly forEach: (cb: (direction: Direction, wall: Wall) => void) => void
+  readonly toArray: () => Wall[]
 }
-
-// const Walls = {
-//   north: wallFactory(),
-//   east: wallFactory(),
-//   south: wallFactory(),
-//   west: wallFactory(),
-//   forEach: (cb: (direction: Direction, wall: Wall) => void) => {
-//     Object.keys(this).forEach((direction: Direction) => {
-//       cb(direction, this[direction])
-//     })
-//   }
-// }
 
 class Walls implements IWalls {
   private walls: Record<Direction, Wall> = {
@@ -49,6 +37,12 @@ class Walls implements IWalls {
   public east = this.walls.east
   public south = this.walls.south
   public west = this.walls.west
+  public toArray = () => [
+    this.walls.north,
+    this.walls.east,
+    this.walls.south,
+    this.walls.west
+  ]
 }
 
 export const wallsFactory: () => IWalls = () => new Walls()

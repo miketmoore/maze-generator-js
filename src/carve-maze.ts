@@ -4,11 +4,21 @@ import { carveGridFactory, ICarveableGrid } from './carveable-grid'
 import { randInRange } from './rand'
 import { Direction } from './direction'
 
-export function carveMaze(grid: IGrid) {
+type Strategy = 'recursive-backtracking' | 'iteration'
+
+export function carveMaze(
+  grid: IGrid,
+  strategy: Strategy = 'recursive-backtracking'
+) {
   const cell = grid.getRandCell()
   cell.markStart()
   const carveableGrid = carveGridFactory(grid)
-  carve(carveableGrid, [cell])
+  switch (strategy) {
+    case 'recursive-backtracking':
+      carveRecursiveBacktracking(carveableGrid, [cell])
+    case 'iteration':
+      carveIteration(carveableGrid, [cell])
+  }
 }
 
 const getOppositeDirection: (direction: Direction) => Direction = direction => {
@@ -22,7 +32,10 @@ const getOppositeDirection: (direction: Direction) => Direction = direction => {
   return 'east'
 }
 
-function carve(carveableGrid: ICarveableGrid, history: ICell[]): void {
+function carveRecursiveBacktracking(
+  carveableGrid: ICarveableGrid,
+  history: ICell[]
+): void {
   const cell = history[history.length - 1]
 
   // get list of walls not carved yet, that point to adjacent cells that have not been visited yet
@@ -35,7 +48,7 @@ function carve(carveableGrid: ICarveableGrid, history: ICell[]): void {
       if (backtrackedCell) {
         backtrackedCell.markPopped()
       }
-      carve(carveableGrid, history)
+      carveRecursiveBacktracking(carveableGrid, history)
       return
     }
     return
@@ -57,7 +70,47 @@ function carve(carveableGrid: ICarveableGrid, history: ICell[]): void {
       adjacentCell.markVisited()
       history.push(adjacentCell)
 
-      carve(carveableGrid, history)
+      carveRecursiveBacktracking(carveableGrid, history)
+    }
+  }
+}
+
+function carveIteration(carveableGrid: ICarveableGrid, history: ICell[]): void {
+  const cell = history[history.length - 1]
+
+  // get list of walls not carved yet, that point to adjacent cells that have not been visited yet
+  const walls = carveableGrid.getAvailableCellWalls(cell, cell.getCoord())
+
+  // get random wall from results
+  if (walls.length === 0) {
+    if (history.length >= 2) {
+      const backtrackedCell = history.pop()
+      if (backtrackedCell) {
+        backtrackedCell.markPopped()
+      }
+      carveRecursiveBacktracking(carveableGrid, history)
+      return
+    }
+    return
+  }
+
+  const wallIndex = randInRange(0, walls.length)
+  const wall = walls[wallIndex]
+  wall.state = 'carved'
+  cell.markVisited()
+
+  const adjacentCell = carveableGrid.getAdjacentCell(
+    wall.direction,
+    cell.getCoord()
+  )
+  if (adjacentCell) {
+    if (!adjacentCell.isVisited()) {
+      const oppDir = getOppositeDirection(wall.direction)
+      adjacentCell.getWalls()[oppDir].state = 'carved'
+      adjacentCell.markVisited()
+      history.push(adjacentCell)
+
+      carveRecursiveBacktracking(carveableGrid, history)
     }
   }
 }

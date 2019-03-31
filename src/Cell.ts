@@ -11,6 +11,7 @@ export interface ICell {
   readonly getCoord: () => ICoord
   readonly markPopped: () => void
   readonly isPopped: () => boolean
+  readonly isCarved: () => boolean
 }
 
 class Cell implements ICell {
@@ -42,6 +43,11 @@ class Cell implements ICell {
     return 1
   }
   public getCoord = () => this.coord
+  public isCarved = () =>
+    this.walls
+      .toArray()
+      .map(wall => wall.state === 'carved')
+      .some(bool => bool === true)
 }
 
 export const cellFactory = (coord: ICoord) => new Cell(coord)

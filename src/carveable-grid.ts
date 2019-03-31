@@ -5,7 +5,7 @@ import { ICell } from './cell'
 import { Wall } from './walls'
 
 export interface ICarveableGrid {
-  readonly getCell: (coord: ICoord) => ICell
+  readonly getCell: (coord: ICoord) => ICell | undefined
   readonly getAvailableCellWalls: (cell: ICell, cellCoord: ICoord) => Wall[]
   readonly getAdjacentCell: (
     direction: Direction,
