@@ -14,9 +14,9 @@ const isObject = (obj: any) => {
   return type === 'function' || (type === 'object' && !!obj)
 }
 
-export const mazeGenerator: (params: Params, strategy: Strategy) => IGrid = (
+export const mazeGenerator: (params: Params, strategy?: Strategy) => IGrid = (
   params,
-  strategy
+  strategy = 'iterative'
 ) => {
   if (Array.isArray(params) || !isObject(params)) {
     throw new Error('params must be an object')

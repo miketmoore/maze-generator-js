@@ -5,7 +5,7 @@ import { randInRange } from './rand'
 import { Direction } from './direction'
 import { ICoord } from './coord'
 
-export type Strategy = 'recursive-backtracking' | 'strategy-b'
+export type Strategy = 'recursive-backtracking' | 'iterative'
 
 export function carveMaze(
   grid: IGrid,
@@ -17,8 +17,8 @@ export function carveMaze(
       const cell = grid.getRandCell()
       cell.markStart()
       carveRecursiveBacktracking(carveableGrid, [cell])
-    case 'strategy-b':
-      carveStrategyB(carveableGrid)
+    case 'iterative':
+      carveIterative(carveableGrid)
   }
 }
 
@@ -75,7 +75,7 @@ function carveRecursiveBacktracking(
   }
 }
 
-function carveStrategyB(grid: ICarveableGrid): void {
+function carveIterative(grid: ICarveableGrid): void {
   const coord = grid.getGrid().getRandCoord()
   const history = [coord]
 
@@ -100,12 +100,7 @@ function carveStrategyB(grid: ICarveableGrid): void {
         if (backtrackedCell) {
           backtrackedCell.markPopped()
         }
-        // console.log('TODO A')
-        // carveRecursiveBacktracking(grid, )
-        // return
       } else {
-        // return
-        // console.log('TODO B')
         running = false
       }
     } else {
@@ -120,9 +115,6 @@ function carveStrategyB(grid: ICarveableGrid): void {
         adjacentCell.getWalls()[oppDir].state = 'carved'
         adjacentCell.markVisited()
         history.push(adjacentCell.getCoord())
-
-        // carveRecursiveBacktracking(grid, history)
-        // console.log('TODO C')
       }
     }
   }
