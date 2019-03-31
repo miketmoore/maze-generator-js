@@ -12,7 +12,8 @@ yarn add maze-generator --dev
 
 ```
 import { mazeGenerator } from 'maze-generator'
-const rows = 20
-const cols = 20
-const grid = mazeGenerator(rows, cols)
+const grid = mazeGenerator({
+    rows: 10,
+    columns: 10
+})
 ```
