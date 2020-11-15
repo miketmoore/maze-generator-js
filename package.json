@@ -36,7 +36,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "format": "prettier --write \"**/*.{ts,js,json,md,yml}\""
+    "format": "prettier --write \"**/*.{ts,js,json,md,yml}\"",
+    "test": "jest"
   },
   "prettier": {
     "semi": false,

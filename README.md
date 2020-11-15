@@ -1,8 +1,8 @@
 # Maze Generator
 
-This is a javascript library, written in TypeScript that generates a maze data structure. 
+This is a javascript library, written in TypeScript that generates a maze data structure.
 
-## Install 
+## Install
 
 ```
 yarn add maze-generator --dev
@@ -16,4 +16,10 @@ const grid = mazeGenerator({
     rows: 10,
     columns: 10
 })
+```
+
+## Run Tests
+
+```
+yarn test
 ```
