@@ -97,20 +97,11 @@ class Grid implements IGrid {
     const walls = cell.getWalls()
     const results: Wall[] = []
 
-    const north = walls.north
-    const east = walls.east
-    const south = walls.south
-    const west = walls.west
-
-    if (this.isWallAvailable(cellCoord, north)) {
-      results.push(north)
-    } else if (this.isWallAvailable(cellCoord, east)) {
-      results.push(east)
-    } else if (this.isWallAvailable(cellCoord, south)) {
-      results.push(south)
-    } else if (this.isWallAvailable(cellCoord, west)) {
-      results.push(west)
-    }
+    walls.toArray().forEach(wall => {
+      if (this.isWallAvailable(cellCoord, wall)) {
+        results.push(wall)
+      }
+    })
 
     return results
   }
