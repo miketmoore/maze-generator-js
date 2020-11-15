@@ -5,7 +5,6 @@ import { randInRange } from './rand'
 import { Wall } from './walls'
 
 export interface IGrid {
-  readonly forEachRow: (cb: (row: ICell[], rowIndex: number) => void) => void
   readonly getCell: (coord: ICoord) => ICell | undefined
   readonly getAdjacentCell: (
     direction: Direction,
@@ -30,12 +29,6 @@ class Grid implements IGrid {
         this.cells[row][col] = cellFactory(coordFactory(row, col))
       }
     }
-  }
-
-  public forEachRow = (cb: (row: ICell[], rowIndex: number) => void) => {
-    this.cells.forEach((row, rowIndex) => {
-      cb(row, rowIndex)
-    })
   }
 
   public getCell = (coord: ICoord) => {

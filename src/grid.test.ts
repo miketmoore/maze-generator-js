@@ -5,25 +5,6 @@ let grid: IGrid
 beforeEach(() => (grid = gridFactory(4, 4)))
 
 describe('grid', () => {
-  describe('forEachRow', () => {
-    test('iterates over all rows', () => {
-      let rowCount = 0
-      grid.forEachRow(row => rowCount++)
-      expect(rowCount).toEqual(4)
-    })
-    test('supplies the correct row index on each iteration', () => {
-      const rowIndices: number[] = []
-      grid.forEachRow((_, rowIndex) => rowIndices.push(rowIndex))
-      expect(rowIndices).toEqual([0, 1, 2, 3])
-    })
-    test('supplies all columns for each row', () => {
-      let colCount = 0
-      grid.forEachRow(row => {
-        colCount += row.length
-      })
-      expect(colCount).toEqual(4 * 4)
-    })
-  })
   describe('getCell', () => {
     const validCoords = [[0, 0], [1, 2], [3, 3]]
     validCoords.forEach(([row, col]) => {
