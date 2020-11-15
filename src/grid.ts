@@ -42,17 +42,36 @@ class Grid implements IGrid {
   private getAdjacentCellCoords: (
     direction: Direction,
     coord: ICoord
-  ) => ICoord = (direction, coord) => {
+  ) => ICoord | undefined = (direction, coord) => {
+    let new_row = coord.row
+    let new_col = coord.col
     switch (direction) {
       case 'north':
-        return coordFactory(coord.row - 1, coord.col)
+        if (coord.row === 0) {
+          return undefined
+        }
+        new_row--
+        break
       case 'east':
-        return coordFactory(coord.row, coord.col + 1)
+        if (coord.col === this.cols - 1) {
+          return undefined
+        }
+        new_col++
+        break
       case 'south':
-        return coordFactory(coord.row + 1, coord.col)
+        if (coord.row === this.rows - 1) {
+          return undefined
+        }
+        new_row++
+        break
       case 'west':
-        return coordFactory(coord.row, coord.col - 1)
+        if (coord.col === 0) {
+          return undefined
+        }
+        new_col--
+        break
     }
+    return coordFactory(new_row, new_col)
   }
 
   public getAdjacentCoord: (
@@ -60,6 +79,9 @@ class Grid implements IGrid {
     coord: ICoord
   ) => ICoord | undefined = (direction, coord) => {
     const adjacentCoords = this.getAdjacentCellCoords(direction, coord)
+    if (!adjacentCoords) {
+      return undefined
+    }
     return this.coordInBounds(adjacentCoords) ? adjacentCoords : undefined
   }
 
