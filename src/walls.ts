@@ -17,7 +17,6 @@ export interface IWalls {
   readonly east: Wall
   readonly south: Wall
   readonly west: Wall
-  readonly forEach: (cb: (direction: Direction, wall: Wall) => void) => void
   readonly toArray: () => Wall[]
 }
 
@@ -27,11 +26,6 @@ class Walls implements IWalls {
     east: wallFactory('east'),
     south: wallFactory('south'),
     west: wallFactory('west')
-  }
-  public forEach = (cb: (direction: Direction, wall: Wall) => void) => {
-    Object.keys(this.walls).forEach((direction: Direction) => {
-      cb(direction, this.walls[direction])
-    })
   }
   public north = this.walls.north
   public east = this.walls.east

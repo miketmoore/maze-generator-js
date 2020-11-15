@@ -80,20 +80,37 @@ class Grid implements IGrid {
     return this.cells[key]
   }
 
+  private isWallAvailable = (cellCoord: ICoord, wall: Wall) => {
+    if (wall.state === 'solid') {
+      const adjacentCell = this.getAdjacentCell(wall.direction, cellCoord)
+      if (adjacentCell && !adjacentCell.isVisited()) {
+        return true
+      }
+    }
+    return false
+  }
+
   public getAvailableCellWalls = (cell: ICell, cellCoord: ICoord) => {
     // available cell walls are walls that have not been carved and that are adjacent to a cell
     // that has not been visited
 
     const walls = cell.getWalls()
     const results: Wall[] = []
-    walls.forEach((direction, wall) => {
-      if (wall.state === 'solid') {
-        const adjacentCell = this.getAdjacentCell(direction, cellCoord)
-        if (adjacentCell && !adjacentCell.isVisited()) {
-          results.push(wall)
-        }
-      }
-    })
+
+    const north = walls.north
+    const east = walls.east
+    const south = walls.south
+    const west = walls.west
+
+    if (this.isWallAvailable(cellCoord, north)) {
+      results.push(north)
+    } else if (this.isWallAvailable(cellCoord, east)) {
+      results.push(east)
+    } else if (this.isWallAvailable(cellCoord, south)) {
+      results.push(south)
+    } else if (this.isWallAvailable(cellCoord, west)) {
+      results.push(west)
+    }
 
     return results
   }
