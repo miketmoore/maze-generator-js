@@ -1,5 +1,4 @@
 import { IWalls, wallsFactory } from './walls'
-import { ICoord } from './coord'
 
 export interface ICell {
   readonly getWalls: () => IWalls
@@ -8,7 +7,6 @@ export interface ICell {
   readonly markVisited: () => void
   readonly isVisited: () => boolean
   readonly getOppositeWall: (wall: number) => number
-  readonly getCoord: () => ICoord
   readonly markPopped: () => void
   readonly isPopped: () => boolean
   readonly isCarved: () => boolean
@@ -19,11 +17,8 @@ class Cell implements ICell {
   private walls: IWalls = wallsFactory()
   private visited = false
   private start = false
-  private coord: ICoord
 
-  constructor(coord: ICoord) {
-    this.coord = coord
-  }
+  constructor() {}
 
   public isPopped = () => this.popped
   public markPopped = () => (this.popped = true)
@@ -42,7 +37,6 @@ class Cell implements ICell {
     }
     return 1
   }
-  public getCoord = () => this.coord
   public isCarved = () =>
     this.walls
       .toArray()
@@ -50,4 +44,4 @@ class Cell implements ICell {
       .some(bool => bool === true)
 }
 
-export const cellFactory = (coord: ICoord) => new Cell(coord)
+export const cellFactory = () => new Cell()

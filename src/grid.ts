@@ -6,10 +6,10 @@ import { Wall } from './walls'
 
 export interface IGrid {
   readonly getCell: (coord: ICoord) => ICell | undefined
-  readonly getAdjacentCell: (
+  readonly getAdjacentCoord: (
     direction: Direction,
     coord: ICoord
-  ) => ICell | undefined
+  ) => ICoord | undefined
   readonly getRandCoord: () => ICoord
   readonly getRandCell: () => ICell
   readonly getAvailableCellWalls: (cell: ICell, cellCoord: ICoord) => Wall[]
@@ -26,7 +26,7 @@ class Grid implements IGrid {
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         const key = this.buildKey(row, col)
-        this.cells[key] = cellFactory(coordFactory(row, col))
+        this.cells[key] = cellFactory()
       }
     }
   }
@@ -55,14 +55,12 @@ class Grid implements IGrid {
     }
   }
 
-  public getAdjacentCell: (
+  public getAdjacentCoord: (
     direction: Direction,
     coord: ICoord
-  ) => ICell | undefined = (direction, coord) => {
+  ) => ICoord | undefined = (direction, coord) => {
     const adjacentCoords = this.getAdjacentCellCoords(direction, coord)
-    return this.coordInBounds(adjacentCoords)
-      ? this.getCell(adjacentCoords)
-      : undefined
+    return this.coordInBounds(adjacentCoords) ? adjacentCoords : undefined
   }
 
   private rowInBounds = (row: number) => row >= 0 && row < this.rows
@@ -82,9 +80,12 @@ class Grid implements IGrid {
 
   private isWallAvailable = (cellCoord: ICoord, wall: Wall) => {
     if (wall.state === 'solid') {
-      const adjacentCell = this.getAdjacentCell(wall.direction, cellCoord)
-      if (adjacentCell && !adjacentCell.isVisited()) {
-        return true
+      const adjacentCoord = this.getAdjacentCoord(wall.direction, cellCoord)
+      if (adjacentCoord) {
+        const adjacentCell = this.getCell(adjacentCoord)
+        if (adjacentCell && !adjacentCell.isVisited()) {
+          return true
+        }
       }
     }
     return false

@@ -24,21 +24,20 @@ describe('grid', () => {
       })
     })
   })
-  describe('getAdjacentCell', () => {
+  describe('getAdjacentCoord', () => {
     test('returns an adjacent cell', () => {
       const coord = coordFactory(0, 0)
-      const cell = grid.getAdjacentCell('east', coord)
-      if (!cell) {
-        throw new Error('oh no')
+      const adjacent = grid.getAdjacentCoord('east', coord)
+      if (!adjacent) {
+        throw new Error('expected adjacent coord to be defined')
       }
-      const adjacentCoord = cell.getCoord()
-      expect(adjacentCoord.row).toEqual(0)
-      expect(adjacentCoord.col).toEqual(1)
+      expect(adjacent.row).toEqual(0)
+      expect(adjacent.col).toEqual(1)
     })
     test('does not return a cell', () => {
       const coord = coordFactory(3, 3)
-      const cell = grid.getAdjacentCell('east', coord)
-      expect(cell).toBeUndefined()
+      const adjacent = grid.getAdjacentCoord('east', coord)
+      expect(adjacent).toBeUndefined()
     })
   })
 })
