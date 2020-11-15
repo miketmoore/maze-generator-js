@@ -1,7 +1,5 @@
 import { Direction } from './direction'
 
-type WallState = 'solid' | 'carved'
-
 export interface IWall {
   readonly carve: () => void
   readonly isSolid: () => boolean
@@ -10,12 +8,12 @@ export interface IWall {
 
 class Wall implements IWall {
   public direction: Direction
-  public state: WallState = 'solid'
+  public solid = true
   constructor(direction: Direction) {
     this.direction = direction
   }
-  public carve = () => (this.state = 'carved')
-  public isSolid = () => this.state === 'solid'
+  public carve = () => (this.solid = false)
+  public isSolid = () => this.solid === true
   public getDirection = () => this.direction
 }
 
