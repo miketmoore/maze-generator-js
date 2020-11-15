@@ -53,7 +53,6 @@ class Grid implements IGrid {
       case 'west':
         return coordFactory(coord.row, coord.col - 1)
     }
-    return coordFactory(-1, -1)
   }
 
   public getAdjacentCell: (
