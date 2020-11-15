@@ -18,29 +18,26 @@ export interface IGrid {
 class Grid implements IGrid {
   private rows: number
   private cols: number
-  private cells: ICell[][]
+  private cells: Record<string, ICell>
   constructor(rows: number, cols: number) {
     this.rows = rows
     this.cols = cols
-    this.cells = []
+    this.cells = {}
     for (let row = 0; row < rows; row++) {
-      this.cells[row] = []
       for (let col = 0; col < cols; col++) {
-        this.cells[row][col] = cellFactory(coordFactory(row, col))
+        const key = this.buildKey(row, col)
+        this.cells[key] = cellFactory(coordFactory(row, col))
       }
     }
   }
 
   public getCell = (coord: ICoord) => {
     const { row, col } = coord
-    const cells = this.cells
-    if (row >= 0 && row < cells.length) {
-      const r = cells[row]
-      if (col >= 0 && col < r.length) {
-        return r[col]
-      }
-    }
+    const key = this.buildKey(row, col)
+    return this.cells[key]
   }
+
+  private buildKey = (row: number, col: number) => `${row},${col}`
 
   private getAdjacentCellCoords: (
     direction: Direction,
@@ -80,7 +77,8 @@ class Grid implements IGrid {
 
   public getRandCell = () => {
     const coord = this.getRandCoord()
-    return this.cells[coord.row][coord.col]
+    const key = this.buildKey(coord.row, coord.col)
+    return this.cells[key]
   }
 
   public getAvailableCellWalls = (cell: ICell, cellCoord: ICoord) => {
