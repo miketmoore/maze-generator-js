@@ -11,7 +11,6 @@ export interface IGrid {
     coord: ICoord
   ) => ICoord | undefined
   readonly getRandCoord: () => ICoord
-  readonly getRandCell: () => ICell
   readonly getAvailableCellWalls: (cell: ICell, cellCoord: ICoord) => IWall[]
 }
 
@@ -93,12 +92,6 @@ class Grid implements IGrid {
 
   public getRandCoord = () =>
     coordFactory(randInRange(0, this.rows - 1), randInRange(0, this.cols - 1))
-
-  public getRandCell = () => {
-    const coord = this.getRandCoord()
-    const key = this.buildKey(coord.row, coord.col)
-    return this.cells[key]
-  }
 
   private isWallAvailable = (cellCoord: ICoord, wall: IWall) => {
     if (wall.isSolid()) {
