@@ -1,5 +1,4 @@
-import { gridFactory, IGrid } from './grid'
-import { ICell } from './cell'
+import { IGrid } from './grid'
 import { randInRange } from './rand'
 import { Direction } from './direction'
 import { ICoord } from './coord'
@@ -62,16 +61,16 @@ function carveRecursiveBacktracking(grid: IGrid, history: ICoord[]): void {
 
   const wallIndex = randInRange(0, walls.length)
   const wall = walls[wallIndex]
-  wall.state = 'carved'
+  wall.carve()
   cell.markVisited()
 
-  const adjacentCoord = grid.getAdjacentCoord(wall.direction, coord)
+  const adjacentCoord = grid.getAdjacentCoord(wall.getDirection(), coord)
   if (adjacentCoord) {
     const adjacentCell = grid.getCell(adjacentCoord)
     if (adjacentCell) {
       if (!adjacentCell.isVisited()) {
-        const oppDir = getOppositeDirection(wall.direction)
-        adjacentCell.getWalls()[oppDir].state = 'carved'
+        const oppDir = getOppositeDirection(wall.getDirection())
+        adjacentCell.getWalls()[oppDir].carve()
         adjacentCell.markVisited()
 
         history.push(adjacentCoord)
@@ -113,15 +112,15 @@ function carveIterative(grid: IGrid): void {
     } else {
       const wallIndex = randInRange(0, walls.length)
       const wall = walls[wallIndex]
-      wall.state = 'carved'
+      wall.carve()
       cell.markVisited()
 
-      const adjacentCoord = grid.getAdjacentCoord(wall.direction, coord)
+      const adjacentCoord = grid.getAdjacentCoord(wall.getDirection(), coord)
       if (adjacentCoord) {
         const adjacentCell = grid.getCell(adjacentCoord)
         if (adjacentCell && !adjacentCell.isVisited()) {
-          const oppDir = getOppositeDirection(wall.direction)
-          adjacentCell.getWalls()[oppDir].state = 'carved'
+          const oppDir = getOppositeDirection(wall.getDirection())
+          adjacentCell.getWalls()[oppDir].carve()
           adjacentCell.markVisited()
           history.push(adjacentCoord)
         }

@@ -2,7 +2,7 @@ import { ICoord, coordFactory } from './coord'
 import { ICell, cellFactory } from './cell'
 import { Direction } from './direction'
 import { randInRange } from './rand'
-import { Wall } from './walls'
+import { IWall } from './wall'
 
 export interface IGrid {
   readonly getCell: (coord: ICoord) => ICell | undefined
@@ -12,7 +12,7 @@ export interface IGrid {
   ) => ICoord | undefined
   readonly getRandCoord: () => ICoord
   readonly getRandCell: () => ICell
-  readonly getAvailableCellWalls: (cell: ICell, cellCoord: ICoord) => Wall[]
+  readonly getAvailableCellWalls: (cell: ICell, cellCoord: ICoord) => IWall[]
 }
 
 class Grid implements IGrid {
@@ -78,9 +78,12 @@ class Grid implements IGrid {
     return this.cells[key]
   }
 
-  private isWallAvailable = (cellCoord: ICoord, wall: Wall) => {
-    if (wall.state === 'solid') {
-      const adjacentCoord = this.getAdjacentCoord(wall.direction, cellCoord)
+  private isWallAvailable = (cellCoord: ICoord, wall: IWall) => {
+    if (wall.isSolid()) {
+      const adjacentCoord = this.getAdjacentCoord(
+        wall.getDirection(),
+        cellCoord
+      )
       if (adjacentCoord) {
         const adjacentCell = this.getCell(adjacentCoord)
         if (adjacentCell && !adjacentCell.isVisited()) {

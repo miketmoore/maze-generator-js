@@ -1,27 +1,16 @@
 import { Direction } from './direction'
-
-type WallState = 'solid' | 'carved'
-
-export class Wall {
-  public direction: Direction
-  public state: WallState = 'solid'
-  constructor(direction: Direction) {
-    this.direction = direction
-  }
-}
-
-const wallFactory = (direction: Direction) => new Wall(direction)
+import { IWall, wallFactory } from './wall'
 
 export interface IWalls {
-  readonly north: Wall
-  readonly east: Wall
-  readonly south: Wall
-  readonly west: Wall
-  readonly toArray: () => Wall[]
+  readonly north: IWall
+  readonly east: IWall
+  readonly south: IWall
+  readonly west: IWall
+  readonly toArray: () => IWall[]
 }
 
 class Walls implements IWalls {
-  private walls: Record<Direction, Wall> = {
+  private walls: Record<Direction, IWall> = {
     north: wallFactory('north'),
     east: wallFactory('east'),
     south: wallFactory('south'),

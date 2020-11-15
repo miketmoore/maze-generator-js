@@ -40,7 +40,7 @@ class Cell implements ICell {
   public isCarved = () =>
     this.walls
       .toArray()
-      .map(wall => wall.state === 'carved')
+      .map(wall => wall.isCarved())
       .some(bool => bool === true)
 }
 

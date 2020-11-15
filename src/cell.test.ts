@@ -17,7 +17,7 @@ describe('isCarved', () => {
   })
   it('true when one wall is carved', () => {
     const cell = cellFactory()
-    cell.getWalls().north.state = 'carved'
+    cell.getWalls().north.carve()
     expect(cell.isCarved()).toEqual(true)
   })
 })
