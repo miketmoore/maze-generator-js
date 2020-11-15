@@ -27,6 +27,7 @@ class Cell implements ICell {
     }
     return 1
   }
+  // the cell is carved if at least one of the walls is not solid
   public isCarved = () =>
     this.walls
       .toArray()
