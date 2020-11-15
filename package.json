@@ -29,14 +29,15 @@
   "readmeFilename": "README.md",
   "devDependencies": {
     "@types/jest": "^24.0.11",
-    "jest": "^24.5.0",
+    "jest": "24.0.0",
     "prettier": "^1.16.4",
     "ts-jest": "^24.0.1",
     "typescript": "^3.3.4000"
   },
   "scripts": {
     "build": "tsc",
-    "format": "prettier --write \"**/*.{ts,js,json,md,yml}\""
+    "format": "prettier --write \"**/*.{ts,js,json,md,yml}\"",
+    "test": "jest"
   },
   "prettier": {
     "semi": false,
