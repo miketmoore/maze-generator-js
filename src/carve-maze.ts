@@ -46,13 +46,7 @@ function carveRecursiveBacktracking(grid: IGrid, history: ICoord[]): void {
 
   if (walls.length === 0) {
     if (history.length >= 2) {
-      const backtrackedCoord = history.pop()
-      if (backtrackedCoord) {
-        const backtrackedCell = grid.getCell(backtrackedCoord)
-        if (backtrackedCell) {
-          backtrackedCell.markPopped()
-        }
-      }
+      history.pop()
       carveRecursiveBacktracking(grid, history)
       return
     }
@@ -98,14 +92,7 @@ function carveIterative(grid: IGrid): void {
 
     if (walls.length === 0) {
       if (history.length >= 2) {
-        const backtrackedCoord = history.pop()
-        if (!backtrackedCoord) {
-          throw new Error('backtracked coord not found')
-        }
-        const backtrackedCell = grid.getCell(backtrackedCoord)
-        if (backtrackedCell) {
-          backtrackedCell.markPopped()
-        }
+        history.pop()
       } else {
         running = false
       }
