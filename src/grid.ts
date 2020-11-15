@@ -89,22 +89,13 @@ class Grid implements IGrid {
     }
     return false
   }
-
-  public getAvailableCellWalls = (cell: ICell, cellCoord: ICoord) => {
-    // available cell walls are walls that have not been carved and that are adjacent to a cell
-    // that has not been visited
-
-    const walls = cell.getWalls()
-    const results: Wall[] = []
-
-    walls.toArray().forEach(wall => {
-      if (this.isWallAvailable(cellCoord, wall)) {
-        results.push(wall)
-      }
-    })
-
-    return results
-  }
+  // available cell walls are walls that have not been carved and that are adjacent to a cell
+  // that has not been visited
+  public getAvailableCellWalls = (cell: ICell, cellCoord: ICoord) =>
+    cell
+      .getWalls()
+      .toArray()
+      .filter(wall => this.isWallAvailable(cellCoord, wall))
 }
 
 export const gridFactory: (rows: number, cols: number) => IGrid = (
