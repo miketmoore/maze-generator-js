@@ -2,6 +2,7 @@ import { ICoord, coordFactory } from './coord'
 import { ICell, cellFactory } from './cell'
 import { Direction } from './direction'
 import { randInRange } from './rand'
+import { Wall } from './walls'
 
 export interface IGrid {
   readonly forEachRow: (cb: (row: ICell[], rowIndex: number) => void) => void
@@ -12,6 +13,7 @@ export interface IGrid {
   ) => ICell | undefined
   readonly getRandCoord: () => ICoord
   readonly getRandCell: () => ICell
+  readonly getAvailableCellWalls: (cell: ICell, cellCoord: ICoord) => Wall[]
 }
 
 class Grid implements IGrid {
@@ -86,6 +88,24 @@ class Grid implements IGrid {
   public getRandCell = () => {
     const coord = this.getRandCoord()
     return this.cells[coord.row][coord.col]
+  }
+
+  public getAvailableCellWalls = (cell: ICell, cellCoord: ICoord) => {
+    // available cell walls are walls that have not been carved and that are adjacent to a cell
+    // that has not been visited
+
+    const walls = cell.getWalls()
+    const results: Wall[] = []
+    walls.forEach((direction, wall) => {
+      if (wall.state === 'solid') {
+        const adjacentCell = this.getAdjacentCell(direction, cellCoord)
+        if (adjacentCell && !adjacentCell.isVisited()) {
+          results.push(wall)
+        }
+      }
+    })
+
+    return results
   }
 }
 

@@ -1,9 +1,7 @@
-import { IGrid } from './grid'
+import { gridFactory, IGrid } from './grid'
 import { ICell } from './cell'
-import { carveGridFactory, ICarveableGrid } from './carveable-grid'
 import { randInRange } from './rand'
 import { Direction } from './direction'
-import { ICoord } from './coord'
 
 export type Strategy = 'recursive-backtracking' | 'iterative'
 
@@ -11,14 +9,13 @@ export function carveMaze(
   grid: IGrid,
   strategy: Strategy = 'recursive-backtracking'
 ) {
-  const carveableGrid = carveGridFactory(grid)
   switch (strategy) {
     case 'recursive-backtracking':
       const cell = grid.getRandCell()
       cell.markStart()
-      carveRecursiveBacktracking(carveableGrid, [cell])
+      carveRecursiveBacktracking(grid, [cell])
     case 'iterative':
-      carveIterative(carveableGrid)
+      carveIterative(grid)
   }
 }
 
@@ -33,14 +30,11 @@ const getOppositeDirection: (direction: Direction) => Direction = direction => {
   return 'east'
 }
 
-function carveRecursiveBacktracking(
-  carveableGrid: ICarveableGrid,
-  history: ICell[]
-): void {
+function carveRecursiveBacktracking(grid: IGrid, history: ICell[]): void {
   const cell = history[history.length - 1]
 
   // get list of walls not carved yet, that point to adjacent cells that have not been visited yet
-  const walls = carveableGrid.getAvailableCellWalls(cell, cell.getCoord())
+  const walls = grid.getAvailableCellWalls(cell, cell.getCoord())
 
   if (walls.length === 0) {
     if (history.length >= 2) {
@@ -48,7 +42,7 @@ function carveRecursiveBacktracking(
       if (backtrackedCell) {
         backtrackedCell.markPopped()
       }
-      carveRecursiveBacktracking(carveableGrid, history)
+      carveRecursiveBacktracking(grid, history)
       return
     }
     return
@@ -59,10 +53,7 @@ function carveRecursiveBacktracking(
   wall.state = 'carved'
   cell.markVisited()
 
-  const adjacentCell = carveableGrid.getAdjacentCell(
-    wall.direction,
-    cell.getCoord()
-  )
+  const adjacentCell = grid.getAdjacentCell(wall.direction, cell.getCoord())
   if (adjacentCell) {
     if (!adjacentCell.isVisited()) {
       const oppDir = getOppositeDirection(wall.direction)
@@ -70,13 +61,13 @@ function carveRecursiveBacktracking(
       adjacentCell.markVisited()
       history.push(adjacentCell)
 
-      carveRecursiveBacktracking(carveableGrid, history)
+      carveRecursiveBacktracking(grid, history)
     }
   }
 }
 
-function carveIterative(grid: ICarveableGrid): void {
-  const coord = grid.getGrid().getRandCoord()
+function carveIterative(grid: IGrid): void {
+  const coord = grid.getRandCoord()
   const history = [coord]
 
   let running = true
