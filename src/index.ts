@@ -1,4 +1,4 @@
-import { gridFactory, IGrid } from './grid'
+import { gridFactory, ExportData } from './grid'
 import { carveMaze, Strategy } from './carve-maze'
 
 export { IGrid } from './grid'
@@ -14,10 +14,10 @@ const isObject = (obj: any) => {
   return type === 'function' || (type === 'object' && !!obj)
 }
 
-export const mazeGenerator: (params: Params, strategy?: Strategy) => IGrid = (
-  params,
-  strategy = 'iterative'
-) => {
+export const mazeGenerator: (
+  params: Params,
+  strategy?: Strategy
+) => ExportData = (params, strategy = 'iterative') => {
   if (Array.isArray(params) || !isObject(params)) {
     throw new Error('params must be an object')
   }
@@ -36,5 +36,5 @@ export const mazeGenerator: (params: Params, strategy?: Strategy) => IGrid = (
   }
   const grid = gridFactory(rows, columns)
   carveMaze(grid, strategy)
-  return grid
+  return grid.getExportData()
 }

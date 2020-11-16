@@ -40,4 +40,29 @@ describe('grid', () => {
       expect(adjacent).toBeUndefined()
     })
   })
+  describe('getExportData', () => {
+    test('returns an un-carved grid', () => {
+      expect(grid.getExportData()).toMatchSnapshot()
+    })
+    test('returns an un-carved grid', () => {
+      const carveData: Array<
+        [number, number, Array<'north' | 'east' | 'south' | 'west'>]
+      > = [
+        [0, 0, ['north']],
+        [1, 2, ['north', 'east']],
+        [2, 3, ['north', 'west']],
+        [3, 3, ['south']]
+      ]
+      carveData.forEach(([row, col, wallNames]) => {
+        const cell = grid.getCell(coordFactory(row, col))
+        if (!cell) {
+          throw new Error('cell is undefined which is unexpected')
+        }
+        const walls = cell.getWalls()
+        wallNames.forEach(wallName => walls[wallName].carve())
+      })
+
+      expect(grid.getExportData()).toMatchSnapshot()
+    })
+  })
 })

@@ -4,6 +4,12 @@ import { Direction } from './direction'
 import { randInRange } from './rand'
 import { IWall } from './wall'
 
+type ExportCell = [string, boolean, boolean, boolean, boolean]
+
+export interface ExportData {
+  readonly grid: ExportCell[]
+}
+
 export interface IGrid {
   readonly getCell: (coord: ICoord) => ICell | undefined
   readonly getAdjacentCoord: (
@@ -12,6 +18,7 @@ export interface IGrid {
   ) => ICoord | undefined
   readonly getRandCoord: () => ICoord
   readonly getAvailableCellWalls: (cell: ICell, cellCoord: ICoord) => IWall[]
+  readonly getExportData: () => ExportData
 }
 
 class Grid implements IGrid {
@@ -115,6 +122,22 @@ class Grid implements IGrid {
       .getWalls()
       .toArray()
       .filter(wall => this.isWallAvailable(cellCoord, wall))
+
+  public getExportData = () => {
+    const data: ExportData = { grid: [] }
+    Object.keys(this.cells).forEach(key => {
+      const cell = this.cells[key]
+      const walls = cell.getWalls()
+      data.grid.push([
+        key,
+        walls.north.isSolid(),
+        walls.east.isSolid(),
+        walls.south.isSolid(),
+        walls.west.isSolid()
+      ])
+    })
+    return data
+  }
 }
 
 export const gridFactory: (rows: number, cols: number) => IGrid = (
