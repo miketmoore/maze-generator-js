@@ -1,3 +1,6 @@
 const maze = require('../dist/index')
-const grid = maze.mazeGenerator({ rows: 10, columns: 10 })
+const grid = maze.mazeGenerator(
+  { rows: 6, columns: 6 },
+  'recursive-backtracking'
+)
 console.log(grid)
