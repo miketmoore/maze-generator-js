@@ -19,6 +19,7 @@ export function carveMaze(
     case 'iterative':
       carveIterative(grid)
   }
+  return grid
 }
 
 const getOppositeDirection: (direction: Direction) => Direction = direction => {

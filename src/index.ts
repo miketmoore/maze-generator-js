@@ -1,4 +1,4 @@
-import { gridFactory, IGrid } from './grid'
+import { IGrid } from './grid'
 import { carveMaze, Strategy } from './carve-maze'
 
 export { IGrid } from './grid'
