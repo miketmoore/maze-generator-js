@@ -1,9 +1,7 @@
 import { IGrid } from './grid'
 import { ICell } from './cell'
-import { carveGridFactory, ICarveableGrid } from './carveable-grid'
 import { randInRange } from './rand'
 import { Direction } from './direction'
-import { ICoord } from './coord'
 
 export type Strategy = 'recursive-backtracking' | 'iterative'
 
@@ -11,14 +9,13 @@ export function carveMaze(
   grid: IGrid,
   strategy: Strategy = 'recursive-backtracking'
 ) {
-  const carveableGrid = carveGridFactory(grid)
   switch (strategy) {
     case 'recursive-backtracking':
       const cell = grid.getRandCell()
       cell.markStart()
-      carveRecursiveBacktracking(carveableGrid, [cell])
+      carveRecursiveBacktracking(grid, [cell])
     case 'iterative':
-      carveIterative(carveableGrid)
+      carveIterative(grid)
   }
 }
 
@@ -34,7 +31,7 @@ const getOppositeDirection: (direction: Direction) => Direction = direction => {
 }
 
 function carveRecursiveBacktracking(
-  carveableGrid: ICarveableGrid,
+  carveableGrid: IGrid,
   history: ICell[]
 ): void {
   const cell = history[history.length - 1]
@@ -75,8 +72,8 @@ function carveRecursiveBacktracking(
   }
 }
 
-function carveIterative(grid: ICarveableGrid): void {
-  const coord = grid.getGrid().getRandCoord()
+function carveIterative(grid: IGrid): void {
+  const coord = grid.getRandCoord()
   const history = [coord]
 
   let running = true
