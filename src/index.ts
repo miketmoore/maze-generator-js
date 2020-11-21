@@ -34,7 +34,6 @@ export const mazeGenerator: (params: Params, strategy?: Strategy) => IGrid = (
   if (columns < 0) {
     throw new Error('columns must be a positive integer')
   }
-  const grid = gridFactory(rows, columns)
-  carveMaze(grid, strategy)
-  return grid
+
+  return carveMaze(rows, columns, strategy)
 }

@@ -1,4 +1,4 @@
-import { IGrid } from './grid'
+import { gridFactory, IGrid } from './grid'
 import { ICell } from './cell'
 import { randInRange } from './rand'
 import { Direction } from './direction'
@@ -6,9 +6,11 @@ import { Direction } from './direction'
 export type Strategy = 'recursive-backtracking' | 'iterative'
 
 export function carveMaze(
-  grid: IGrid,
+  rows: number,
+  columns: number,
   strategy: Strategy = 'recursive-backtracking'
 ) {
+  const grid = gridFactory(rows, columns)
   switch (strategy) {
     case 'recursive-backtracking':
       const cell = grid.getRandCell()
