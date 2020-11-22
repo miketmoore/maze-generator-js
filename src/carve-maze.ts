@@ -57,12 +57,12 @@ function carveRecursiveBacktracking(
   cell.markVisited()
 
   const adjacentCell = carveableGrid.getAdjacentCell(
-    wall.direction,
+    wall.getDirection(),
     cell.getCoord()
   )
   if (adjacentCell) {
     if (!adjacentCell.isVisited()) {
-      const oppDir = getOppositeDirection(wall.direction)
+      const oppDir = getOppositeDirection(wall.getDirection())
       adjacentCell.getWalls()[oppDir].carve()
       adjacentCell.markVisited()
       history.push(adjacentCell)
@@ -99,9 +99,12 @@ function carveIterative(grid: IGrid): void {
       wall.carve()
       cell.markVisited()
 
-      const adjacentCell = grid.getAdjacentCell(wall.direction, cell.getCoord())
+      const adjacentCell = grid.getAdjacentCell(
+        wall.getDirection(),
+        cell.getCoord()
+      )
       if (adjacentCell && !adjacentCell.isVisited()) {
-        const oppDir = getOppositeDirection(wall.direction)
+        const oppDir = getOppositeDirection(wall.getDirection())
         adjacentCell.getWalls()[oppDir].carve()
         adjacentCell.markVisited()
         history.push(adjacentCell.getCoord())
