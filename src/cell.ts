@@ -41,7 +41,7 @@ class Cell implements ICell {
   public isCarved = () =>
     this.walls
       .toArray()
-      .map(wall => wall.carve())
+      .map(wall => wall.isSolid() === false)
       .some(bool => bool === true)
 }
 
