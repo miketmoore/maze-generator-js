@@ -9,13 +9,10 @@ export interface ICell {
   readonly isVisited: () => boolean
   readonly getOppositeWall: (wall: number) => number
   readonly getCoord: () => ICoord
-  readonly markPopped: () => void
-  readonly isPopped: () => boolean
   readonly isCarved: () => boolean
 }
 
 class Cell implements ICell {
-  private popped: boolean
   private walls: IWalls = wallsFactory()
   private visited = false
   private start = false
@@ -25,8 +22,6 @@ class Cell implements ICell {
     this.coord = coord
   }
 
-  public isPopped = () => this.popped
-  public markPopped = () => (this.popped = true)
   public getWalls = () => this.walls
   public markVisited = () => (this.visited = true)
   public markStart = () => (this.start = true)
