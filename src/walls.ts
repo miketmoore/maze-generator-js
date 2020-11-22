@@ -1,13 +1,13 @@
 import { Direction } from './direction'
 
-type WallState = 'solid' | 'carved'
-
 export class Wall {
   public direction: Direction
-  public state: WallState = 'solid'
+  public solid = true
   constructor(direction: Direction) {
     this.direction = direction
   }
+  public carve = () => (this.solid = false)
+  public isSolid = () => this.solid
 }
 
 const wallFactory = (direction: Direction) => new Wall(direction)

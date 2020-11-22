@@ -53,7 +53,7 @@ function carveRecursiveBacktracking(
 
   const wallIndex = randInRange(0, walls.length)
   const wall = walls[wallIndex]
-  wall.state = 'carved'
+  wall.carve()
   cell.markVisited()
 
   const adjacentCell = carveableGrid.getAdjacentCell(
@@ -63,7 +63,7 @@ function carveRecursiveBacktracking(
   if (adjacentCell) {
     if (!adjacentCell.isVisited()) {
       const oppDir = getOppositeDirection(wall.direction)
-      adjacentCell.getWalls()[oppDir].state = 'carved'
+      adjacentCell.getWalls()[oppDir].carve()
       adjacentCell.markVisited()
       history.push(adjacentCell)
 
@@ -96,13 +96,13 @@ function carveIterative(grid: IGrid): void {
     } else {
       const wallIndex = randInRange(0, walls.length)
       const wall = walls[wallIndex]
-      wall.state = 'carved'
+      wall.carve()
       cell.markVisited()
 
       const adjacentCell = grid.getAdjacentCell(wall.direction, cell.getCoord())
       if (adjacentCell && !adjacentCell.isVisited()) {
         const oppDir = getOppositeDirection(wall.direction)
-        adjacentCell.getWalls()[oppDir].state = 'carved'
+        adjacentCell.getWalls()[oppDir].carve()
         adjacentCell.markVisited()
         history.push(adjacentCell.getCoord())
       }

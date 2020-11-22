@@ -98,7 +98,7 @@ class Grid implements IGrid {
     const walls = cell.getWalls()
     const results: Wall[] = []
     walls.forEach((direction, wall) => {
-      if (wall.state === 'solid') {
+      if (wall.isSolid()) {
         const adjacentCell = this.getAdjacentCell(direction, cellCoord)
         if (adjacentCell && !adjacentCell.isVisited()) {
           results.push(wall)
