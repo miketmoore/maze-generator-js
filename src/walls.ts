@@ -1,8 +1,6 @@
 import { Direction } from './direction'
 import { Wall } from './wall'
 
-const wallFactory = () => new Wall()
-
 export interface IWalls {
   readonly north: Wall
   readonly east: Wall
@@ -14,10 +12,10 @@ export interface IWalls {
 
 class Walls implements IWalls {
   private walls: Record<Direction, Wall> = {
-    north: wallFactory(),
-    east: wallFactory(),
-    south: wallFactory(),
-    west: wallFactory()
+    north: Wall.new(),
+    east: Wall.new(),
+    south: Wall.new(),
+    west: Wall.new()
   }
   public forEach = (cb: (direction: Direction, wall: Wall) => void) => {
     Object.keys(this.walls).forEach((direction: Direction) => {
