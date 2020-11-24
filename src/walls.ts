@@ -1,10 +1,5 @@
 import { Direction } from './direction'
-
-export class Wall {
-  private solid = true
-  public carve = () => (this.solid = false)
-  public isSolid = () => this.solid
-}
+import { Wall } from './wall'
 
 const wallFactory = () => new Wall()
 

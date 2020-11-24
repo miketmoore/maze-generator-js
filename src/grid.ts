@@ -2,7 +2,7 @@ import { ICoord, coordFactory } from './coord'
 import { ICell, cellFactory } from './cell'
 import { Direction } from './direction'
 import { randInRange } from './rand'
-import { Wall } from './walls'
+import { Wall } from './wall'
 
 export interface IGrid {
   readonly forEachRow: (cb: (row: ICell[], rowIndex: number) => void) => void
