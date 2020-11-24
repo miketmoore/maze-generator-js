@@ -10,7 +10,7 @@ export interface ICell {
   readonly isCarved: () => boolean
 }
 
-class Cell implements ICell {
+export class Cell implements ICell {
   private data = {
     visited: false,
     walls: {
@@ -20,6 +20,8 @@ class Cell implements ICell {
       south: true
     }
   }
+
+  public static new = () => new Cell()
 
   public getWalls = () => this.data.walls
   public carveWall = (direction: Direction) => {
@@ -44,5 +46,3 @@ class Cell implements ICell {
       (direction: Direction) => this.data.walls[direction] === false
     )
 }
-
-export const cellFactory = () => new Cell()

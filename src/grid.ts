@@ -1,5 +1,5 @@
 import { ICoord, coordFactory } from './coord'
-import { ICell, cellFactory } from './cell'
+import { ICell, Cell } from './cell'
 import { Direction } from './direction'
 import { randInRange } from './rand'
 
@@ -30,7 +30,7 @@ class Grid implements IGrid {
     for (let row = 0; row < rows; row++) {
       this.cells[row] = []
       for (let col = 0; col < cols; col++) {
-        this.cells[row][col] = cellFactory()
+        this.cells[row][col] = Cell.new()
       }
     }
   }
