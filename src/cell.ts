@@ -21,6 +21,31 @@ interface CellDataMutable {
   readonly walls: Record<Direction, boolean>
 }
 
+const wallCombinations = [
+  '0000',
+  '0001',
+  '0010',
+  '0100',
+  '1000',
+  '1111',
+  '0011',
+  '0110',
+  '1100',
+  '1010',
+  '0101',
+  '1110',
+  '0111',
+  '1011',
+  '1101',
+  '1001'
+]
+const cellCombinations = [
+  // visited
+  ...wallCombinations.map(w => `1${w}`),
+  // not visited
+  ...wallCombinations.map(w => `0${w}`)
+]
+
 export class Cell implements ICell {
   private data: CellDataMutable = {
     visited: false,
@@ -50,9 +75,14 @@ export class Cell implements ICell {
       visited,
       walls: { north, east, south, west }
     } = this.data
-    return `${visited ? 1 : 0}${north ? 1 : 0}${east ? 1 : 0}${south ? 1 : 0}${
-      west ? 1 : 0
-    }`
+    const x = `${visited ? 1 : 0}${north ? 1 : 0}${east ? 1 : 0}${
+      south ? 1 : 0
+    }${west ? 1 : 0}`
+    const ref = cellCombinations.find(a => a === x)
+    if (!ref) {
+      throw new Error('ref not found')
+    }
+    return ref
   }
 
   public getWalls = () => this.data.walls
