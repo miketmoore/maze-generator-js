@@ -12,7 +12,7 @@ export interface ICell {
 
 class Cell implements ICell {
   private walls: IWalls = wallsFactory()
-  private visited = false
+  private data = { visited: false }
   private coord: ICoord
 
   constructor(coord: ICoord) {
@@ -20,8 +20,8 @@ class Cell implements ICell {
   }
 
   public getWalls = () => this.walls
-  public markVisited = () => (this.visited = true)
-  public isVisited = () => this.visited
+  public markVisited = () => (this.data.visited = true)
+  public isVisited = () => this.data.visited
   public getOppositeWall = (wall: number) => {
     if (wall === 0) {
       return 2
