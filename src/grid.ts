@@ -1,5 +1,5 @@
 import { ICoord, coordFactory } from './coord'
-import { ICell, Cell } from './cell'
+import { ICell, Cell, CellData } from './cell'
 import { Direction } from './direction'
 import { randInRange } from './rand'
 
@@ -17,12 +17,13 @@ export interface IGrid {
     cell: ICell,
     cellCoord: ICoord
   ) => Direction[]
+  readonly carveCellWall: (coord: ICoord, direction: Direction) => void
 }
 
 class Grid implements IGrid {
   private rows: number
   private cols: number
-  private cells: ICell[][]
+  private cells: CellData[][]
   constructor(rows: number, cols: number) {
     this.rows = rows
     this.cols = cols
@@ -30,14 +31,14 @@ class Grid implements IGrid {
     for (let row = 0; row < rows; row++) {
       this.cells[row] = []
       for (let col = 0; col < cols; col++) {
-        this.cells[row][col] = Cell.new()
+        this.cells[row][col] = Cell.new().getData()
       }
     }
   }
 
   public forEachRow = (cb: (row: ICell[], rowIndex: number) => void) => {
     this.cells.forEach((row, rowIndex) => {
-      cb(row, rowIndex)
+      cb(row.map(Cell.newFromData), rowIndex)
     })
   }
 
@@ -47,7 +48,7 @@ class Grid implements IGrid {
     if (row >= 0 && row < cells.length) {
       const r = cells[row]
       if (col >= 0 && col < r.length) {
-        return r[col]
+        return Cell.newFromData(r[col])
       }
     }
   }
@@ -90,7 +91,7 @@ class Grid implements IGrid {
 
   public getRandCell = () => {
     const coord = this.getRandCoord()
-    return this.cells[coord.row][coord.col]
+    return Cell.newFromData(this.cells[coord.row][coord.col])
   }
 
   private isWallAvailable = (
@@ -115,6 +116,20 @@ class Grid implements IGrid {
     if (this.isWallAvailable(cellCoord, 'south', cell)) results.push('south')
     if (this.isWallAvailable(cellCoord, 'west', cell)) results.push('west')
     return results
+  }
+
+  private updateCell = ({ row, col }: ICoord, cell: ICell) => {
+    this.cells[row][col] = cell.getData()
+  }
+
+  public carveCellWall = (coord: ICoord, direction: Direction) => {
+    const cell = this.getCell(coord)
+    if (!cell) {
+      throw new Error('cell not found')
+    }
+    cell.carveWall(direction)
+    cell.markVisited()
+    this.updateCell(coord, cell)
   }
 }
 

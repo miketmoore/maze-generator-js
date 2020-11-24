@@ -8,10 +8,21 @@ export interface ICell {
   readonly isVisited: () => boolean
   readonly getOppositeWall: (wall: number) => number
   readonly isCarved: () => boolean
+  readonly getData: () => CellData
+}
+
+export interface CellData {
+  readonly visited: boolean
+  readonly walls: Record<Direction, boolean>
+}
+
+interface CellDataMutable {
+  visited: boolean
+  readonly walls: Record<Direction, boolean>
 }
 
 export class Cell implements ICell {
-  private data = {
+  private data: CellDataMutable = {
     visited: false,
     walls: {
       north: true,
@@ -22,6 +33,18 @@ export class Cell implements ICell {
   }
 
   public static new = () => new Cell()
+  public static newFromData = (data: CellData) => {
+    const cell = Cell.new()
+    if (data.visited) {
+      cell.markVisited()
+    }
+    if (!data.walls.north) cell.carveWall('north')
+    if (!data.walls.east) cell.carveWall('east')
+    if (!data.walls.west) cell.carveWall('west')
+    if (!data.walls.south) cell.carveWall('south')
+    return cell
+  }
+  public getData = () => this.data
 
   public getWalls = () => this.data.walls
   public carveWall = (direction: Direction) => {
