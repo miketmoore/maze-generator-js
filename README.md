@@ -26,3 +26,11 @@ const grid = mazeGenerator({
 4. Compile `yarn build` - the TypeScript is compiled to JavaScript into the `dist` directory.
 5. Publish with `yarn publish --access=public`. The CLI will prompt for the version number and npm credentials.
 6. Navigate to https://www.npmjs.com/package/@miketmoore/maze-generator and smile :)
+
+## Heapdump Profiling
+
+https://github.com/bnoordhuis/node-heapdump is installed as a development dependency. You can create a heapdump by running
+
+```
+yarn clean && yarn build && node examples/itertive-heapdump.js
+```
