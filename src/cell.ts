@@ -21,6 +21,9 @@ interface CellDataMutable {
   readonly walls: Record<Direction, boolean>
 }
 
+// north east south west
+// 1 = solid
+// 0 = carved
 const wallCombinations = [
   '0000',
   '0001',
