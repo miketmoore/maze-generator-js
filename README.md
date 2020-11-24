@@ -22,6 +22,7 @@ const grid = mazeGenerator({
 
 1. Checkout the commit that is ready to release.
 2. Check this out as a branch named `release-X.X.X`
-3. Compile `yarn build` - the TypeScript is compiled to JavaScript into the `dist` directory.
-4. Publish with `yarn publish --access=public`. The CLI will prompt for the version number and npm credentials.
-5. Navigate to https://www.npmjs.com/package/@miketmoore/maze-generator and smile :)
+3. Clean the build directory - `yarn clean`
+4. Compile `yarn build` - the TypeScript is compiled to JavaScript into the `dist` directory.
+5. Publish with `yarn publish --access=public`. The CLI will prompt for the version number and npm credentials.
+6. Navigate to https://www.npmjs.com/package/@miketmoore/maze-generator and smile :)
