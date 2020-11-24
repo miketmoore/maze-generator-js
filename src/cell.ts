@@ -1,4 +1,3 @@
-import { IWalls, wallsFactory } from './walls'
 import { ICoord } from './coord'
 import { Direction } from './direction'
 
@@ -52,9 +51,6 @@ class Cell implements ICell {
     Object.keys(this.data.walls).some(
       (direction: Direction) => this.data.walls[direction] === false
     )
-  // this.data.walls
-  //   .map(wall => wall.isSolid() === false)
-  //   .some(bool => bool === true)
 }
 
 export const cellFactory = (coord: ICoord) => new Cell(coord)
