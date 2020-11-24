@@ -14,7 +14,6 @@ export function carveMaze(
   switch (strategy) {
     case 'recursive-backtracking':
       const cell = grid.getRandCell()
-      cell.markStart()
       carveRecursiveBacktracking(grid, [cell])
     case 'iterative':
       carveIterative(grid)

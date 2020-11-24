@@ -3,8 +3,6 @@ import { ICoord } from './coord'
 
 export interface ICell {
   readonly getWalls: () => IWalls
-  readonly markStart: () => void
-  readonly isStart: () => boolean
   readonly markVisited: () => void
   readonly isVisited: () => boolean
   readonly getOppositeWall: (wall: number) => number
@@ -15,7 +13,6 @@ export interface ICell {
 class Cell implements ICell {
   private walls: IWalls = wallsFactory()
   private visited = false
-  private start = false
   private coord: ICoord
 
   constructor(coord: ICoord) {
@@ -24,8 +21,6 @@ class Cell implements ICell {
 
   public getWalls = () => this.walls
   public markVisited = () => (this.visited = true)
-  public markStart = () => (this.start = true)
-  public isStart = () => this.start
   public isVisited = () => this.visited
   public getOppositeWall = (wall: number) => {
     if (wall === 0) {
