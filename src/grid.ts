@@ -14,7 +14,15 @@ export interface IGrid {
   readonly getRandCoord: () => ICoord
   readonly getRandCell: () => ICell
   // from carveable grid
-  readonly getAvailableCellWalls: (cell: ICell, cellCoord: ICoord) => Wall[]
+  readonly getAvailableCellWalls: (
+    cell: ICell,
+    cellCoord: ICoord
+  ) => AvailableWall[]
+}
+
+interface AvailableWall {
+  readonly direction: Direction
+  readonly wall: Wall
 }
 
 class Grid implements IGrid {
@@ -96,12 +104,15 @@ class Grid implements IGrid {
     // that has not been visited
 
     const walls = cell.getWalls()
-    const results: Wall[] = []
+    const results: AvailableWall[] = []
     walls.forEach((direction, wall) => {
       if (wall.isSolid()) {
         const adjacentCell = this.getAdjacentCell(direction, cellCoord)
         if (adjacentCell && !adjacentCell.isVisited()) {
-          results.push(wall)
+          results.push({
+            direction,
+            wall
+          })
         }
       }
     })
