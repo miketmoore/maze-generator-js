@@ -91,4 +91,11 @@ describe('grid', () => {
       }
     })
   })
+  describe('getRandCell', () => {
+    test('always returns a defined cell', () => {
+      for (var i = 0; i < 100; i++) {
+        expect(grid.getRandCell()).toBeDefined()
+      }
+    })
+  })
 })
