@@ -99,6 +99,18 @@ describe('grid', () => {
       }
     })
   })
+  describe('carveCellWall', () => {
+    const data: Direction[] = ['north', 'east', 'south', 'west']
+    data.forEach(wall => {
+      it(`can carve the ${wall} wall`, () => {
+        const coord = coordFactory(0, 0)
+        grid.carveCellWall(coord, wall)
+        const cell = grid.getCell(coord)
+        if (!cell) throw new Error('cell is undefined which is unexpected')
+        expect(cell.getWalls()[wall]).toEqual(false)
+      })
+    })
+  })
   describe('getAvailableCellWalls', () => {
     const data = [
       {
