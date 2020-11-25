@@ -1,9 +1,7 @@
-// const heapdump = require('heapdump')
 const maze = require('../dist/index')
-const rows = 20
-const columns = 20
+const rows = 8
+const columns = 8
 const grid = maze.mazeGenerator({ rows, columns }, 'iterative')
-// heapdump.writeSnapshot(`maze-generator-js-${Date.now()}.heapsnapshot`)
 let final = ``
 grid.forEachRow((row, rowIndex) => {
   if (rowIndex === 0) {
