@@ -36,3 +36,45 @@ describe('carveWall', () => {
     })
   })
 })
+
+describe('isWallSolid', () => {
+  const data: Direction[] = ['north', 'east', 'south', 'west']
+  data.forEach(direction => {
+    test(`${direction} is solid`, () => {
+      const cell = Cell.new()
+      expect(cell.isWallSolid(direction)).toEqual(true)
+    })
+    test(`${direction} is not solid`, () => {
+      const cell = Cell.new()
+      cell.carveWall(direction)
+      expect(cell.isWallSolid(direction)).toEqual(false)
+    })
+  })
+})
+
+describe('visited', () => {
+  it('is not visited', () => {
+    const cell = Cell.new()
+    expect(cell.isVisited()).toBe(false)
+  })
+  it('is visited', () => {
+    const cell = Cell.new()
+    cell.markVisited()
+    expect(cell.isVisited()).toBe(true)
+  })
+})
+
+describe('getOppositeWall', () => {
+  const data = [
+    { input: 0, output: 2 },
+    { input: 1, output: 3 },
+    { input: 2, output: 0 },
+    { input: 3, output: 1 }
+  ]
+  data.forEach(({ input, output }) => {
+    test(`input=${input} output=${output}`, () => {
+      const cell = Cell.new()
+      expect(cell.getOppositeWall(input)).toBe(output)
+    })
+  })
+})
