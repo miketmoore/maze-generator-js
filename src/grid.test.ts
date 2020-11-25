@@ -61,11 +61,26 @@ describe('grid', () => {
   describe('getAdjacentCoord', () => {
     test('returns an adjacent coord', () => {
       const coord = grid.getAdjacentCoord('north', coordFactory(1, 1))
+      if (!coord) {
+        throw new Error('coord is undefined but expected to be defined')
+      }
       expect(coord.row).toEqual(0)
       expect(coord.col).toEqual(1)
     })
-    test('does not return a coord', () => {
+    test('adjacent north coord is undefined', () => {
       const coord = grid.getAdjacentCoord('north', coordFactory(0, 0))
+      expect(coord).toBeUndefined()
+    })
+    test('adjacent east coord is undefined', () => {
+      const coord = grid.getAdjacentCoord('east', coordFactory(0, 3))
+      expect(coord).toBeUndefined()
+    })
+    test('adjacent south coord is undefined', () => {
+      const coord = grid.getAdjacentCoord('south', coordFactory(3, 0))
+      expect(coord).toBeUndefined()
+    })
+    test('adjacent west coord is undefined', () => {
+      const coord = grid.getAdjacentCoord('west', coordFactory(0, 0))
       expect(coord).toBeUndefined()
     })
   })

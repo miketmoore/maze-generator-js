@@ -10,7 +10,10 @@ export interface IGrid {
     direction: Direction,
     coord: ICoord
   ) => ICell | undefined
-  readonly getAdjacentCoord: (direction: Direction, coord: ICoord) => ICoord
+  readonly getAdjacentCoord: (
+    direction: Direction,
+    coord: ICoord
+  ) => ICoord | undefined
   readonly getRandCoord: () => ICoord
   readonly getRandCell: () => ICell
   readonly getAvailableCellWalls: (
@@ -53,21 +56,21 @@ class Grid implements IGrid {
     }
   }
 
-  public getAdjacentCoord: (direction: Direction, coord: ICoord) => ICoord = (
-    direction,
-    coord
-  ) => {
+  public getAdjacentCoord = (direction: Direction, { row, col }: ICoord) => {
     switch (direction) {
       case 'north':
-        return coordFactory(coord.row - 1, coord.col)
+        if (row === 0) return undefined
+        return coordFactory(row - 1, col)
       case 'east':
-        return coordFactory(coord.row, coord.col + 1)
+        if (col === this.cols - 1) return undefined
+        return coordFactory(row, col + 1)
       case 'south':
-        return coordFactory(coord.row + 1, coord.col)
+        if (row === this.rows - 1) return undefined
+        return coordFactory(row + 1, col)
       case 'west':
-        return coordFactory(coord.row, coord.col - 1)
+        if (col === 0) return undefined
+        return coordFactory(row, col - 1)
     }
-    return coordFactory(-1, -1)
   }
 
   public getAdjacentCell: (
@@ -75,6 +78,7 @@ class Grid implements IGrid {
     coord: ICoord
   ) => ICell | undefined = (direction, coord) => {
     const adjacentCoords = this.getAdjacentCoord(direction, coord)
+    if (!adjacentCoords) return undefined
     return this.coordInBounds(adjacentCoords)
       ? this.getCell(adjacentCoords)
       : undefined
