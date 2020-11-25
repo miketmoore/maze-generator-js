@@ -38,7 +38,8 @@
   "scripts": {
     "clean": "rimraf -rf dist",
     "build": "yarn clean && tsc",
-    "format": "prettier --write \"**/*.{ts,js,json,md,yml}\""
+    "format": "prettier --write \"**/*.{ts,js,json,md,yml}\"",
+    "test": "jest src"
   },
   "prettier": {
     "semi": false,
