@@ -84,4 +84,11 @@ describe('grid', () => {
       expect(coord).toBeUndefined()
     })
   })
+  describe('getRandCoord', () => {
+    test('always returns a defined coord', () => {
+      for (var i = 0; i < 100; i++) {
+        expect(grid.getRandCoord()).toBeDefined()
+      }
+    })
+  })
 })
