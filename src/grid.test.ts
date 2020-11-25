@@ -1,5 +1,6 @@
 import { gridFactory, IGrid } from './grid'
 import { coordFactory } from './coord'
+import { Direction } from './direction'
 
 let grid: IGrid
 beforeEach(() => (grid = gridFactory(4, 4)))
@@ -96,6 +97,73 @@ describe('grid', () => {
       for (var i = 0; i < 100; i++) {
         expect(grid.getRandCell()).toBeDefined()
       }
+    })
+  })
+  describe('getAvailableCellWalls', () => {
+    const data = [
+      {
+        wallsToCarve: ['north', 'east', 'south', 'west'],
+        expected: []
+      },
+      // 3 available
+      {
+        wallsToCarve: ['north'],
+        expected: ['east', 'south', 'west']
+      },
+      {
+        wallsToCarve: ['east'],
+        expected: ['north', 'south', 'west']
+      },
+      {
+        wallsToCarve: ['south'],
+        expected: ['north', 'east', 'west']
+      },
+      {
+        wallsToCarve: ['west'],
+        expected: ['north', 'east', 'south']
+      },
+      // 2 available
+      {
+        wallsToCarve: ['north', 'south'],
+        expected: ['east', 'west']
+      },
+      {
+        wallsToCarve: ['east', 'west'],
+        expected: ['north', 'south']
+      },
+      // 1 available
+      {
+        wallsToCarve: ['north', 'east', 'south'],
+        expected: ['west']
+      },
+      {
+        wallsToCarve: ['east', 'south', 'west'],
+        expected: ['north']
+      }
+    ]
+    data.forEach(({ wallsToCarve, expected }) => {
+      const name =
+        expected.length === 0
+          ? 'none available'
+          : `${expected.length} available after carving ${wallsToCarve.join(
+              ','
+            )}`
+      test(name, () => {
+        const coord = coordFactory(1, 1)
+
+        wallsToCarve.forEach((wall: Direction) =>
+          grid.carveCellWall(coord, wall)
+        )
+
+        const cell = grid.getCell(coord)
+        if (!cell) {
+          throw new Error('cell is undefined which is unexpected')
+        }
+
+        const walls = grid.getAvailableCellWalls(cell, coord)
+        expect(walls.length).toEqual(expected.length)
+        expect(walls).toEqual(expected)
+      })
     })
   })
 })
