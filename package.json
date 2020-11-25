@@ -37,7 +37,7 @@
   },
   "scripts": {
     "clean": "rimraf -rf dist",
-    "build": "tsc",
+    "build": "yarn clean && tsc",
     "format": "prettier --write \"**/*.{ts,js,json,md,yml}\""
   },
   "prettier": {
