@@ -14,5 +14,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Breaking change in API for response grid instance. Use `grid.getWalls()`, then each wall property, such as `walls.north` is now a boolean that indicates if the wall is "solid" (exists) or is "carved" (does not exist)
 - Added a "clean" script: `yarn clean` that should be used before `yarn build`
 - Added "GNU General Public License v3.0" (GNU GPLv3) license
-
-## [1.0.0]
