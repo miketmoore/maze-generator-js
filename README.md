@@ -18,6 +18,12 @@ const grid = mazeGenerator({
 })
 ```
 
+## Tests
+
+```
+yarn test
+```
+
 ## Publishing a Release
 
 1. Checkout the commit that is ready to release.
