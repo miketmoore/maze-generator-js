@@ -44,16 +44,14 @@ describe('grid', () => {
     })
   })
   describe('getAdjacentCell', () => {
-    // test('returns an adjacent cell', () => {
-    //   const coord = coordFactory(0, 0)
-    //   const cell = grid.getAdjacentCell('east', coord)
-    //   if (!cell) {
-    //     throw new Error('oh no')
-    //   }
-    //   const adjacentCoord = cell.getCoord()
-    //   expect(adjacentCoord.row).toEqual(0)
-    //   expect(adjacentCoord.col).toEqual(1)
-    // })
+    test('returns an adjacent cell', () => {
+      const coord = coordFactory(0, 0)
+      const cell = grid.getAdjacentCell('east', coord)
+      if (!cell) {
+        throw new Error('oh no')
+      }
+      expect(cell).toBeDefined()
+    })
     test('does not return a cell', () => {
       const coord = coordFactory(3, 3)
       const cell = grid.getAdjacentCell('east', coord)
