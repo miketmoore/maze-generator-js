@@ -58,4 +58,15 @@ describe('grid', () => {
       expect(cell).toBeUndefined()
     })
   })
+  describe('getAdjacentCoord', () => {
+    test('returns an adjacent coord', () => {
+      const coord = grid.getAdjacentCoord('north', coordFactory(1, 1))
+      expect(coord.row).toEqual(0)
+      expect(coord.col).toEqual(1)
+    })
+    test('does not return a coord', () => {
+      const coord = grid.getAdjacentCoord('north', coordFactory(0, 0))
+      expect(coord).toBeUndefined()
+    })
+  })
 })
