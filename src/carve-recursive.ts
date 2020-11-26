@@ -40,8 +40,6 @@ function _carveRecursiveBacktracking(
       if (!adjacentCell.isVisited()) {
         const oppDir = adjacentCell.getOppositeDirection(availableWall)
         carveableGrid.carveCellWall(adjacentCoord, oppDir)
-        // adjacentCell.carveWall(oppDir)
-        // adjacentCell.markVisited()
         history.push(adjacentCoord)
 
         _carveRecursiveBacktracking(carveableGrid, history)
