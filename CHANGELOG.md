@@ -7,8 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Fixed bug where using recursive strategy would run the iterative strategy too
 - Removed getOppositeWall from cell (it wasn't used)
 - Moved getOppositeDirection to Cell
+- Separate strategy functions into their own files
+- Moved Direction type definition to cell module
+- Removed markVisited from Cell and now marking as visited inside carveWall
+- Removed isCarved
+- Renamed example file from iterative-heapdump.js to iterative.js
 
 ## [2.0.1]
 
