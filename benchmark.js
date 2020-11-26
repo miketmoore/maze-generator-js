@@ -3,6 +3,7 @@ const maze = require('./dist/index')
 const suite = new Benchmark.Suite()
 const options = { rows: 50, columns: 50 }
 
+// Note: the recursive strategy crashes when dimensions are greater than 50x50
 suite
   .add('recursive', function() {
     maze.mazeGenerator(options, 'recursive-backtracking')
