@@ -2,7 +2,12 @@ import { IGrid } from './grid'
 import { randInRange } from './rand'
 import { ICoord } from './coord'
 
-export function carveRecursiveBacktracking(
+export function carveRecursiveBacktracking(grid: IGrid) {
+  const coord = grid.getRandCoord()
+  _carveRecursiveBacktracking(grid, [coord])
+}
+
+function _carveRecursiveBacktracking(
   carveableGrid: IGrid,
   history: ICoord[]
 ): void {
@@ -18,7 +23,7 @@ export function carveRecursiveBacktracking(
   if (availableWalls.length === 0) {
     if (history.length >= 2) {
       history.pop()
-      carveRecursiveBacktracking(carveableGrid, history)
+      _carveRecursiveBacktracking(carveableGrid, history)
       return
     }
     return
@@ -39,7 +44,7 @@ export function carveRecursiveBacktracking(
         // adjacentCell.markVisited()
         history.push(adjacentCoord)
 
-        carveRecursiveBacktracking(carveableGrid, history)
+        _carveRecursiveBacktracking(carveableGrid, history)
       }
     }
   }

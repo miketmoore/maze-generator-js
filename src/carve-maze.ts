@@ -12,8 +12,7 @@ export function carveMaze(
   const grid = gridFactory(rows, columns)
   switch (strategy) {
     case 'recursive-backtracking':
-      const coord = grid.getRandCoord()
-      carveRecursiveBacktracking(grid, [coord])
+      carveRecursiveBacktracking(grid)
     case 'iterative':
       carveIterative(grid)
   }

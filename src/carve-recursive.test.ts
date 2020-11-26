@@ -4,8 +4,7 @@ import { gridFactory } from './grid'
 describe('carveRecursiveBacktracking', () => {
   test('all cells should be carved', () => {
     const grid = gridFactory(4, 4)
-    const coord = grid.getRandCoord()
-    carveRecursiveBacktracking(grid, [coord])
+    carveRecursiveBacktracking(grid)
     let count = 0
     grid.forEachRow(row => {
       row.forEach(cell => {
