@@ -64,17 +64,20 @@ describe('visited', () => {
   })
 })
 
-describe('getOppositeWall', () => {
-  const data = [
-    { input: 0, output: 2 },
-    { input: 1, output: 3 },
-    { input: 2, output: 0 },
-    { input: 3, output: 1 }
+describe('getOppositeDirection', () => {
+  const data: Array<{
+    readonly input: Direction
+    readonly output: Direction
+  }> = [
+    { input: 'north', output: 'south' },
+    { input: 'east', output: 'west' },
+    { input: 'south', output: 'north' },
+    { input: 'west', output: 'east' }
   ]
   data.forEach(({ input, output }) => {
     test(`input=${input} output=${output}`, () => {
       const cell = Cell.new()
-      expect(cell.getOppositeWall(input)).toBe(output)
+      expect(cell.getOppositeDirection(input)).toBe(output)
     })
   })
 })

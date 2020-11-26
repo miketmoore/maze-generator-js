@@ -6,7 +6,7 @@ export interface ICell {
   readonly isWallSolid: (direction: Direction) => boolean
   readonly markVisited: () => void
   readonly isVisited: () => boolean
-  readonly getOppositeWall: (wall: number) => number
+  readonly getOppositeDirection: (direction: Direction) => Direction
   readonly isCarved: () => boolean
   readonly getData: () => string
 }
@@ -96,15 +96,17 @@ export class Cell implements ICell {
     this.data.walls[direction] === true
   public markVisited = () => (this.data.visited = true)
   public isVisited = () => this.data.visited
-  public getOppositeWall = (wall: number) => {
-    if (wall === 0) {
-      return 2
-    } else if (wall === 1) {
-      return 3
-    } else if (wall === 2) {
-      return 0
+  public getOppositeDirection: (
+    direction: Direction
+  ) => Direction = direction => {
+    if (direction === 'north') {
+      return 'south'
+    } else if (direction === 'east') {
+      return 'west'
+    } else if (direction === 'south') {
+      return 'north'
     }
-    return 1
+    return 'east'
   }
   public isCarved = () =>
     Object.keys(this.data.walls).some(

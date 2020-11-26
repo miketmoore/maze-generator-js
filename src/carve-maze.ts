@@ -22,17 +22,6 @@ export function carveMaze(
   return grid
 }
 
-const getOppositeDirection: (direction: Direction) => Direction = direction => {
-  if (direction === 'north') {
-    return 'south'
-  } else if (direction === 'east') {
-    return 'west'
-  } else if (direction === 'south') {
-    return 'north'
-  }
-  return 'east'
-}
-
 function carveRecursiveBacktracking(
   carveableGrid: IGrid,
   history: ICoord[]
@@ -64,7 +53,7 @@ function carveRecursiveBacktracking(
     const adjacentCell = carveableGrid.getAdjacentCell(availableWall, coord)
     if (adjacentCell) {
       if (!adjacentCell.isVisited()) {
-        const oppDir = getOppositeDirection(availableWall)
+        const oppDir = adjacentCell.getOppositeDirection(availableWall)
         carveableGrid.carveCellWall(adjacentCoord, oppDir)
         // adjacentCell.carveWall(oppDir)
         // adjacentCell.markVisited()
@@ -106,7 +95,7 @@ function carveIterative(grid: IGrid): void {
       if (adjacentCoord) {
         const adjacentCell = grid.getCell(adjacentCoord)
         if (adjacentCell && !adjacentCell.isVisited()) {
-          const oppDir = getOppositeDirection(availableWall)
+          const oppDir = adjacentCell.getOppositeDirection(availableWall)
           grid.carveCellWall(adjacentCoord, oppDir)
           history.push(adjacentCoord)
         }
