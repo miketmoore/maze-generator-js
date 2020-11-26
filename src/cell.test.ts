@@ -93,3 +93,37 @@ describe('isCarved', () => {
     })
   })
 })
+
+describe('getData', () => {
+  test('for new cell', () => {
+    expect(Cell.new().getData()).toEqual('01111')
+  })
+  test('north carved', () => {
+    const cell = Cell.new()
+    cell.carveWall('north')
+    expect(cell.getData()).toEqual('00111')
+  })
+  test('east carved', () => {
+    const cell = Cell.new()
+    cell.carveWall('east')
+    expect(cell.getData()).toEqual('01011')
+  })
+  test('south carved', () => {
+    const cell = Cell.new()
+    cell.carveWall('south')
+    expect(cell.getData()).toEqual('01101')
+  })
+  test('west carved', () => {
+    const cell = Cell.new()
+    cell.carveWall('west')
+    expect(cell.getData()).toEqual('01110')
+  })
+  test('all carved', () => {
+    const cell = Cell.new()
+    cell.carveWall('north')
+    cell.carveWall('east')
+    cell.carveWall('south')
+    cell.carveWall('west')
+    expect(cell.getData()).toEqual('00000')
+  })
+})
