@@ -6,7 +6,6 @@ export interface ICell {
   readonly isWallSolid: (direction: Direction) => boolean
   readonly isVisited: () => boolean
   readonly getOppositeDirection: (direction: Direction) => Direction
-  readonly isCarved: () => boolean
   readonly getData: () => string
 }
 
@@ -104,8 +103,4 @@ export class Cell implements ICell {
     }
     return 'east'
   }
-  public isCarved = () =>
-    Object.keys(this.data.walls).some(
-      (direction: Direction) => this.data.walls[direction] === false
-    )
 }

@@ -8,7 +8,7 @@ describe('carveRecursiveBacktracking', () => {
     let count = 0
     grid.forEachRow(row => {
       row.forEach(cell => {
-        if (cell.isCarved()) {
+        if (Object.values(cell.getWalls()).some(v => v === false)) {
           count++
         }
       })

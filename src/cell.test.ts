@@ -82,21 +82,6 @@ describe('getOppositeDirection', () => {
   })
 })
 
-describe('isCarved', () => {
-  test(`returns false`, () => {
-    const cell = Cell.new()
-    expect(cell.isCarved()).toBe(false)
-  })
-  const data: Direction[] = ['north', 'east', 'south', 'west']
-  data.forEach(direction => {
-    test(`after carving ${direction}, return true`, () => {
-      const cell = Cell.new()
-      cell.carveWall(direction)
-      expect(cell.isCarved()).toBe(true)
-    })
-  })
-})
-
 describe('getData', () => {
   test('for new cell', () => {
     expect(Cell.new().getData()).toEqual('01111')
