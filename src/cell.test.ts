@@ -1,5 +1,4 @@
-import { Cell } from './cell'
-import { Direction } from './direction'
+import { Cell, Direction } from './cell'
 
 test('getWalls', () => {
   const cell = Cell.new()
@@ -52,14 +51,14 @@ describe('isWallSolid', () => {
   })
 })
 
-describe('visited', () => {
+describe('isVisited', () => {
   it('is not visited', () => {
     const cell = Cell.new()
     expect(cell.isVisited()).toBe(false)
   })
   it('is visited', () => {
     const cell = Cell.new()
-    cell.markVisited()
+    cell.carveWall('north')
     expect(cell.isVisited()).toBe(true)
   })
 })
@@ -82,21 +81,6 @@ describe('getOppositeDirection', () => {
   })
 })
 
-describe('isCarved', () => {
-  test(`returns false`, () => {
-    const cell = Cell.new()
-    expect(cell.isCarved()).toBe(false)
-  })
-  const data: Direction[] = ['north', 'east', 'south', 'west']
-  data.forEach(direction => {
-    test(`after carving ${direction}, return true`, () => {
-      const cell = Cell.new()
-      cell.carveWall(direction)
-      expect(cell.isCarved()).toBe(true)
-    })
-  })
-})
-
 describe('getData', () => {
   test('for new cell', () => {
     expect(Cell.new().getData()).toEqual('01111')
@@ -104,22 +88,22 @@ describe('getData', () => {
   test('north carved', () => {
     const cell = Cell.new()
     cell.carveWall('north')
-    expect(cell.getData()).toEqual('00111')
+    expect(cell.getData()).toEqual('10111')
   })
   test('east carved', () => {
     const cell = Cell.new()
     cell.carveWall('east')
-    expect(cell.getData()).toEqual('01011')
+    expect(cell.getData()).toEqual('11011')
   })
   test('south carved', () => {
     const cell = Cell.new()
     cell.carveWall('south')
-    expect(cell.getData()).toEqual('01101')
+    expect(cell.getData()).toEqual('11101')
   })
   test('west carved', () => {
     const cell = Cell.new()
     cell.carveWall('west')
-    expect(cell.getData()).toEqual('01110')
+    expect(cell.getData()).toEqual('11110')
   })
   test('all carved', () => {
     const cell = Cell.new()
@@ -127,6 +111,6 @@ describe('getData', () => {
     cell.carveWall('east')
     cell.carveWall('south')
     cell.carveWall('west')
-    expect(cell.getData()).toEqual('00000')
+    expect(cell.getData()).toEqual('10000')
   })
 })
