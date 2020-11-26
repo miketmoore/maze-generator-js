@@ -40,7 +40,8 @@
     "clean": "rimraf -rf dist",
     "build": "yarn clean && tsc",
     "format": "prettier --write \"**/*.{ts,js,json,md,yml}\"",
-    "test": "jest src"
+    "test": "jest src",
+    "benchmark": "node benchmark.js"
   },
   "prettier": {
     "semi": false,
