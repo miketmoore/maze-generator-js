@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.3]
+
+### Added
+
+- Added benchmark tests
+
 ## [2.0.2]
 
 - Fixed bug where using recursive strategy would run the iterative strategy too
