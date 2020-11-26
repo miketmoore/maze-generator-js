@@ -1,4 +1,4 @@
-import { Direction } from './direction'
+export type Direction = 'north' | 'east' | 'south' | 'west'
 
 export interface ICell {
   readonly getWalls: () => Record<Direction, boolean>

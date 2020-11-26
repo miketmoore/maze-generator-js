@@ -1,5 +1,4 @@
-import { Cell } from './cell'
-import { Direction } from './direction'
+import { Cell, Direction } from './cell'
 
 test('getWalls', () => {
   const cell = Cell.new()

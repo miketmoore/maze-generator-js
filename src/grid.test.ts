@@ -1,6 +1,6 @@
 import { gridFactory, IGrid } from './grid'
 import { coordFactory } from './coord'
-import { Direction } from './direction'
+import { Direction } from './cell'
 
 let grid: IGrid
 beforeEach(() => (grid = gridFactory(4, 4)))
