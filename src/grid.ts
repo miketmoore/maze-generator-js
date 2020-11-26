@@ -132,7 +132,6 @@ class Grid implements IGrid {
       throw new Error('cell not found')
     }
     cell.carveWall(direction)
-    cell.markVisited()
     this.updateCell(coord, cell)
   }
 }
