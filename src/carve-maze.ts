@@ -40,9 +40,12 @@ function carveRecursiveBacktracking(
   const cell = history[history.length - 1]
 
   // get list of walls not carved yet, that point to adjacent cells that have not been visited yet
-  const walls = carveableGrid.getAvailableCellWalls(cell, cell.getCoord())
+  const availableWalls = carveableGrid.getAvailableCellWalls(
+    cell,
+    cell.getCoord()
+  )
 
-  if (walls.length === 0) {
+  if (availableWalls.length === 0) {
     if (history.length >= 2) {
       const backtrackedCell = history.pop()
       if (backtrackedCell) {
@@ -54,18 +57,18 @@ function carveRecursiveBacktracking(
     return
   }
 
-  const wallIndex = randInRange(0, walls.length)
-  const wall = walls[wallIndex]
-  wall.state = 'carved'
+  const wallIndex = randInRange(0, availableWalls.length)
+  const availableWall = availableWalls[wallIndex]
+  availableWall.wall.state = 'carved'
   cell.markVisited()
 
   const adjacentCell = carveableGrid.getAdjacentCell(
-    wall.direction,
+    availableWall.direction,
     cell.getCoord()
   )
   if (adjacentCell) {
     if (!adjacentCell.isVisited()) {
-      const oppDir = getOppositeDirection(wall.direction)
+      const oppDir = getOppositeDirection(availableWall.direction)
       adjacentCell.getWalls()[oppDir].state = 'carved'
       adjacentCell.markVisited()
       history.push(adjacentCell)
@@ -88,9 +91,9 @@ function carveIterative(grid: ICarveableGrid): void {
     }
 
     // get list of walls not carved yet, that point to adjacent cells that have not been visited yet
-    const walls = grid.getAvailableCellWalls(cell, cell.getCoord())
+    const availableWalls = grid.getAvailableCellWalls(cell, cell.getCoord())
 
-    if (walls.length === 0) {
+    if (availableWalls.length === 0) {
       if (history.length >= 2) {
         const backtrackedCoord = history.pop()
         if (!backtrackedCoord) {
@@ -104,14 +107,17 @@ function carveIterative(grid: ICarveableGrid): void {
         running = false
       }
     } else {
-      const wallIndex = randInRange(0, walls.length)
-      const wall = walls[wallIndex]
-      wall.state = 'carved'
+      const wallIndex = randInRange(0, availableWalls.length)
+      const availableWall = availableWalls[wallIndex]
+      availableWall.wall.state = 'carved'
       cell.markVisited()
 
-      const adjacentCell = grid.getAdjacentCell(wall.direction, cell.getCoord())
+      const adjacentCell = grid.getAdjacentCell(
+        availableWall.direction,
+        cell.getCoord()
+      )
       if (adjacentCell && !adjacentCell.isVisited()) {
-        const oppDir = getOppositeDirection(wall.direction)
+        const oppDir = getOppositeDirection(availableWall.direction)
         adjacentCell.getWalls()[oppDir].state = 'carved'
         adjacentCell.markVisited()
         history.push(adjacentCell.getCoord())

@@ -3,14 +3,10 @@ import { Direction } from './direction'
 type WallState = 'solid' | 'carved'
 
 export class Wall {
-  public direction: Direction
   public state: WallState = 'solid'
-  constructor(direction: Direction) {
-    this.direction = direction
-  }
 }
 
-const wallFactory = (direction: Direction) => new Wall(direction)
+const wallFactory = () => new Wall()
 
 export interface IWalls {
   readonly north: Wall
@@ -23,10 +19,10 @@ export interface IWalls {
 
 class Walls implements IWalls {
   private walls: Record<Direction, Wall> = {
-    north: wallFactory('north'),
-    east: wallFactory('east'),
-    south: wallFactory('south'),
-    west: wallFactory('west')
+    north: wallFactory(),
+    east: wallFactory(),
+    south: wallFactory(),
+    west: wallFactory()
   }
   public forEach = (cb: (direction: Direction, wall: Wall) => void) => {
     Object.keys(this.walls).forEach((direction: Direction) => {

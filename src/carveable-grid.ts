@@ -7,12 +7,20 @@ import { Wall } from './walls'
 export interface ICarveableGrid {
   readonly getGrid: () => IGrid
   readonly getCell: (coord: ICoord) => ICell | undefined
-  readonly getAvailableCellWalls: (cell: ICell, cellCoord: ICoord) => Wall[]
+  readonly getAvailableCellWalls: (
+    cell: ICell,
+    cellCoord: ICoord
+  ) => AvailableWall[]
   readonly getAdjacentCell: (
     direction: Direction,
     coord: ICoord
   ) => ICell | undefined
   readonly forEachRow: (cb: (row: ICell[], rowIndex: number) => void) => void
+}
+
+interface AvailableWall {
+  readonly direction: Direction
+  readonly wall: Wall
 }
 
 class CarveableGrid implements ICarveableGrid {
@@ -29,12 +37,12 @@ class CarveableGrid implements ICarveableGrid {
     // that has not been visited
 
     const walls = cell.getWalls()
-    const results: Wall[] = []
+    const results: AvailableWall[] = []
     walls.forEach((direction, wall) => {
       if (wall.state === 'solid') {
         const adjacentCell = this.grid.getAdjacentCell(direction, cellCoord)
         if (adjacentCell && !adjacentCell.isVisited()) {
-          results.push(wall)
+          results.push({ wall, direction })
         }
       }
     })
