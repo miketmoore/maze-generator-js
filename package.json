@@ -31,11 +31,13 @@
     "@types/jest": "^24.0.11",
     "jest": "^24.5.0",
     "prettier": "^1.16.4",
+    "rimraf": "^3.0.2",
     "ts-jest": "^24.0.1",
     "typescript": "^3.3.4000"
   },
   "scripts": {
-    "build": "tsc",
+    "clean": "rimraf -rf dist",
+    "build": "yarn clean && tsc",
     "format": "prettier --write \"**/*.{ts,js,json,md,yml}\""
   },
   "prettier": {
