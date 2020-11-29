@@ -1,5 +1,5 @@
 import { ICoord, coordFactory } from './coord'
-import { ICell, cellFactory } from './cell'
+import { ICell, cellFactory, CellData, cellFromData } from './cell'
 import { Direction } from './direction'
 import { randInRange } from './rand'
 
@@ -16,12 +16,13 @@ export interface IGrid {
   ) => ICell | undefined
   readonly getRandCoord: () => ICoord
   readonly getRandCell: () => ICell
+  readonly carveWall: (coord: ICoord, direction: Direction) => void
 }
 
 class Grid implements IGrid {
   private rows: number
   private cols: number
-  private cells: ICell[][]
+  private cells: CellData[][]
   constructor(rows: number, cols: number) {
     this.rows = rows
     this.cols = cols
@@ -29,14 +30,14 @@ class Grid implements IGrid {
     for (let row = 0; row < rows; row++) {
       this.cells[row] = []
       for (let col = 0; col < cols; col++) {
-        this.cells[row][col] = cellFactory()
+        this.cells[row][col] = cellFactory().getData()
       }
     }
   }
 
   public forEachRow = (cb: (row: ICell[], rowIndex: number) => void) => {
     this.cells.forEach((row, rowIndex) => {
-      cb(row, rowIndex)
+      cb(row.map(data => cellFromData(data)), rowIndex)
     })
   }
 
@@ -46,7 +47,7 @@ class Grid implements IGrid {
     if (row >= 0 && row < cells.length) {
       const r = cells[row]
       if (col >= 0 && col < r.length) {
-        return r[col]
+        return cellFromData(r[col])
       }
     }
   }
@@ -89,7 +90,14 @@ class Grid implements IGrid {
 
   public getRandCell = () => {
     const coord = this.getRandCoord()
-    return this.cells[coord.row][coord.col]
+    return cellFromData(this.cells[coord.row][coord.col])
+  }
+
+  public carveWall = (coord: ICoord, direction: Direction) => {
+    const cell = this.getCell(coord)
+    if (!cell) throw new Error('cell not found')
+    cell.carveWall(direction)
+    this.cells[coord.row][coord.col] = cell.getData()
   }
 }
 

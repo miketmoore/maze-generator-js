@@ -19,6 +19,7 @@ export interface ICarveableGrid {
     coord: ICoord
   ) => ICell | undefined
   readonly forEachRow: (cb: (row: ICell[], rowIndex: number) => void) => void
+  readonly carveWall: (coord: ICoord, direction: Direction) => void
 }
 
 interface AvailableWall {
@@ -57,6 +58,12 @@ class CarveableGrid implements ICarveableGrid {
   }
   public forEachRow = (cb: (row: ICell[], rowIndex: number) => void) => {
     this.grid.forEachRow(cb)
+  }
+  public carveWall = (coord: ICoord, direction: Direction) => {
+    // const cell = this.getCell(coord)
+    // if (!cell) throw new Error('cell not found')
+    // cell.carveWall(direction)
+    this.grid.carveWall(coord, direction)
   }
 }
 
