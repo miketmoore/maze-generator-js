@@ -5,8 +5,6 @@ export interface ICell {
   readonly markVisited: () => void
   readonly isVisited: () => boolean
   readonly getOppositeWall: (wall: number) => number
-  readonly markPopped: () => void
-  readonly isPopped: () => boolean
   readonly isCarved: () => boolean
   readonly carveWall: (direction: Direction) => void
 }
@@ -14,7 +12,6 @@ export interface ICell {
 export type Walls = Record<Direction, boolean>
 
 class Cell implements ICell {
-  private popped: boolean
   private walls: Walls = {
     north: true,
     east: true,
@@ -23,8 +20,6 @@ class Cell implements ICell {
   }
   private visited = false
 
-  public isPopped = () => this.popped
-  public markPopped = () => (this.popped = true)
   public getWalls = () => this.walls
   public markVisited = () => (this.visited = true)
   public isVisited = () => this.visited
