@@ -12,6 +12,7 @@ export interface ICell {
   readonly markPopped: () => void
   readonly isPopped: () => boolean
   readonly isCarved: () => boolean
+  readonly carveWall: (direction: Direction) => void
 }
 
 export type Walls = Record<Direction, boolean>
@@ -52,6 +53,10 @@ class Cell implements ICell {
   public getCoord = () => this.coord
   public isCarved = () =>
     Object.keys(this.walls).some((key: Direction) => this.walls[key] === false)
+  public carveWall = (direction: Direction) => {
+    this.walls[direction] = false
+    this.visited = true
+  }
 }
 
 export const cellFactory = (coord: ICoord) => new Cell(coord)
