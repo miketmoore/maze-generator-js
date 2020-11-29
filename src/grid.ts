@@ -6,6 +6,10 @@ import { randInRange } from './rand'
 export interface IGrid {
   readonly forEachRow: (cb: (row: ICell[], rowIndex: number) => void) => void
   readonly getCell: (coord: ICoord) => ICell | undefined
+  readonly getAdjacentCoord: (
+    direction: Direction,
+    coord: ICoord
+  ) => ICoord | undefined
   readonly getAdjacentCell: (
     direction: Direction,
     coord: ICoord
@@ -47,10 +51,10 @@ class Grid implements IGrid {
     }
   }
 
-  private getAdjacentCellCoords: (
-    direction: Direction,
-    coord: ICoord
-  ) => ICoord = (direction, coord) => {
+  public getAdjacentCoord: (direction: Direction, coord: ICoord) => ICoord = (
+    direction,
+    coord
+  ) => {
     switch (direction) {
       case 'north':
         return coordFactory(coord.row - 1, coord.col)
@@ -68,7 +72,7 @@ class Grid implements IGrid {
     direction: Direction,
     coord: ICoord
   ) => ICell | undefined = (direction, coord) => {
-    const adjacentCoords = this.getAdjacentCellCoords(direction, coord)
+    const adjacentCoords = this.getAdjacentCoord(direction, coord)
     return this.coordInBounds(adjacentCoords)
       ? this.getCell(adjacentCoords)
       : undefined

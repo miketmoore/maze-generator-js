@@ -14,8 +14,8 @@ export function carveMaze(
   const carveableGrid = carveGridFactory(grid)
   switch (strategy) {
     case 'recursive-backtracking':
-      const cell = grid.getRandCell()
-      carveRecursiveBacktracking(carveableGrid, [cell])
+      const coord = grid.getRandCoord()
+      carveRecursiveBacktracking(carveableGrid, [coord])
     case 'iterative':
       carveIterative(carveableGrid)
   }
@@ -34,15 +34,16 @@ const getOppositeDirection: (direction: Direction) => Direction = direction => {
 
 function carveRecursiveBacktracking(
   carveableGrid: ICarveableGrid,
-  history: ICell[]
+  history: ICoord[]
 ): void {
-  const cell = history[history.length - 1]
+  const coord = history[history.length - 1]
+  const cell = carveableGrid.getCell(coord)
+  if (!cell) {
+    throw new Error('cell not found for coord')
+  }
 
   // get list of walls not carved yet, that point to adjacent cells that have not been visited yet
-  const availableWalls = carveableGrid.getAvailableCellWalls(
-    cell,
-    cell.getCoord()
-  )
+  const availableWalls = carveableGrid.getAvailableCellWalls(cell, coord)
 
   if (availableWalls.length === 0) {
     if (history.length >= 2) {
@@ -57,15 +58,19 @@ function carveRecursiveBacktracking(
   const availableWall = availableWalls[wallIndex]
   cell.carveWall(availableWall.direction)
 
-  const adjacentCell = carveableGrid.getAdjacentCell(
+  const adjacentCoord = carveableGrid.getAdjacentCoord(
     availableWall.direction,
-    cell.getCoord()
+    coord
   )
-  if (adjacentCell) {
+  if (adjacentCoord) {
+    const adjacentCell = carveableGrid.getCell(adjacentCoord)
+    if (!adjacentCell) {
+      throw new Error('adjacent cell not found for coord')
+    }
     if (!adjacentCell.isVisited()) {
       const oppDir = getOppositeDirection(availableWall.direction)
       adjacentCell.carveWall(oppDir)
-      history.push(adjacentCell)
+      history.push(adjacentCoord)
 
       carveRecursiveBacktracking(carveableGrid, history)
     }
@@ -85,7 +90,7 @@ function carveIterative(grid: ICarveableGrid): void {
     }
 
     // get list of walls not carved yet, that point to adjacent cells that have not been visited yet
-    const availableWalls = grid.getAvailableCellWalls(cell, cell.getCoord())
+    const availableWalls = grid.getAvailableCellWalls(cell, coord)
 
     if (availableWalls.length === 0) {
       if (history.length >= 2) {
@@ -101,14 +106,18 @@ function carveIterative(grid: ICarveableGrid): void {
       const availableWall = availableWalls[wallIndex]
       cell.carveWall(availableWall.direction)
 
-      const adjacentCell = grid.getAdjacentCell(
+      const adjacentCoord = grid.getAdjacentCoord(
         availableWall.direction,
-        cell.getCoord()
+        coord
       )
-      if (adjacentCell && !adjacentCell.isVisited()) {
-        const oppDir = getOppositeDirection(availableWall.direction)
-        adjacentCell.carveWall(oppDir)
-        history.push(adjacentCell.getCoord())
+      // const adjacentCell = grid.getAdjacentCell(availableWall.direction, coord)
+      if (adjacentCoord) {
+        const adjacentCell = grid.getCell(adjacentCoord)
+        if (adjacentCell && !adjacentCell.isVisited()) {
+          const oppDir = getOppositeDirection(availableWall.direction)
+          adjacentCell.carveWall(oppDir)
+          history.push(adjacentCoord)
+        }
       }
     }
   }
