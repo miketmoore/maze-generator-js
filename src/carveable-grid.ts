@@ -2,7 +2,6 @@ import { IGrid } from './grid'
 import { ICoord } from './coord'
 import { Direction } from './direction'
 import { ICell } from './cell'
-import { Wall } from './walls'
 
 export interface ICarveableGrid {
   readonly getGrid: () => IGrid
@@ -19,7 +18,7 @@ export interface ICarveableGrid {
 }
 
 interface AvailableWall {
-  readonly wall: Wall
+  readonly wall: boolean
   readonly direction: Direction
 }
 
@@ -38,8 +37,9 @@ class CarveableGrid implements ICarveableGrid {
 
     const walls = cell.getWalls()
     const results: AvailableWall[] = []
-    walls.forEach((direction, wall) => {
-      if (wall.state === 'solid') {
+    Object.keys(walls).forEach((direction: Direction) => {
+      const wall = walls[direction]
+      if (wall) {
         const adjacentCell = this.grid.getAdjacentCell(direction, cellCoord)
         if (adjacentCell && !adjacentCell.isVisited()) {
           results.push({ wall, direction })
