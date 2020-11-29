@@ -1,5 +1,5 @@
 import { ICoord, coordFactory } from './coord'
-import { ICell, cellFactory, CellData, cellFromData } from './cell'
+import { ICell, cellFactory, CellData, cellFromData, Walls } from './cell'
 import { Direction } from './direction'
 import { randInRange } from './rand'
 
@@ -22,7 +22,7 @@ export interface IGrid {
 class Grid implements IGrid {
   private rows: number
   private cols: number
-  private cells: CellData[][]
+  private cells: Walls[][]
   constructor(rows: number, cols: number) {
     this.rows = rows
     this.cols = cols

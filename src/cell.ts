@@ -7,7 +7,7 @@ export interface ICell {
   readonly getOppositeWall: (wall: number) => number
   readonly isCarved: () => boolean
   readonly carveWall: (direction: Direction) => void
-  readonly getData: () => CellData
+  readonly getData: () => Walls
 }
 
 export interface CellData {
@@ -16,6 +16,39 @@ export interface CellData {
 }
 
 export type Walls = Record<Direction, boolean>
+
+const combinationStrings = {
+  '0000': true,
+  '1111': true,
+  '0001': true,
+  '0011': true,
+  '0111': true,
+  '1110': true,
+  '1100': true,
+  '1000': true,
+  '1001': true,
+  '0110': true,
+  '0010': true,
+  '0100': true,
+  '1101': true,
+  '1011': true,
+  '0101': true,
+  '1010': true
+}
+
+const toBool = (v: string) => v === '1'
+const combinationObjects: Walls[] = Object.keys(combinationStrings).map(
+  combo => {
+    const [north, east, south, west] = combo.split('')
+    return {
+      north: toBool(north),
+      east: toBool(east),
+      south: toBool(south),
+      west: toBool(west)
+    }
+  }
+)
+console.log(combinationObjects)
 
 class Cell implements ICell {
   private data: CellData = {
@@ -49,16 +82,43 @@ class Cell implements ICell {
     this.data.walls[direction] = false
     this.data.visited = true
   }
-  public getData = () => this.data
+  public getData = () => {
+    const ref = combinationObjects.find(a => {
+      return (
+        a.north === this.data.walls.north &&
+        a.east === this.data.walls.east &&
+        a.south === this.data.walls.south &&
+        a.west === this.data.walls.west
+      )
+    })
+    if (!ref)
+      throw new Error(
+        'data not found ' + JSON.stringify(this.data, undefined, 2)
+      )
+    return ref
+  }
 }
 
 export const cellFactory = () => new Cell()
-export const cellFromData = (data: CellData) => {
+export const cellFromData = (data: Walls) => {
   const cell = cellFactory()
-  if (data.visited) cell.markVisited()
-  if (!data.walls.north) cell.carveWall('north')
-  if (!data.walls.east) cell.carveWall('east')
-  if (!data.walls.south) cell.carveWall('south')
-  if (!data.walls.west) cell.carveWall('west')
+  let visited = false
+  if (!data.north) {
+    cell.carveWall('north')
+    visited = true
+  }
+  if (!data.east) {
+    cell.carveWall('east')
+    visited = true
+  }
+  if (!data.south) {
+    cell.carveWall('south')
+    visited = true
+  }
+  if (!data.west) {
+    cell.carveWall('west')
+    visited = true
+  }
+  if (visited) cell.markVisited()
   return cell
 }
