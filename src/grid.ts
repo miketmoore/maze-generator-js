@@ -25,7 +25,7 @@ class Grid implements IGrid {
     for (let row = 0; row < rows; row++) {
       this.cells[row] = []
       for (let col = 0; col < cols; col++) {
-        this.cells[row][col] = cellFactory(coordFactory(row, col))
+        this.cells[row][col] = cellFactory()
       }
     }
   }
