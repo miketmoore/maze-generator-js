@@ -1,8 +1,8 @@
-import { IWalls, wallsFactory } from './walls'
 import { ICoord } from './coord'
+import { Direction } from './direction'
 
 export interface ICell {
-  readonly getWalls: () => IWalls
+  readonly getWalls: () => Walls
   readonly markStart: () => void
   readonly isStart: () => boolean
   readonly markVisited: () => void
@@ -14,9 +14,16 @@ export interface ICell {
   readonly isCarved: () => boolean
 }
 
+export type Walls = Record<Direction, boolean>
+
 class Cell implements ICell {
   private popped: boolean
-  private walls: IWalls = wallsFactory()
+  private walls: Walls = {
+    north: true,
+    east: true,
+    south: true,
+    west: true
+  }
   private visited = false
   private start = false
   private coord: ICoord
@@ -44,10 +51,7 @@ class Cell implements ICell {
   }
   public getCoord = () => this.coord
   public isCarved = () =>
-    this.walls
-      .toArray()
-      .map(wall => wall.state === 'carved')
-      .some(bool => bool === true)
+    Object.keys(this.walls).some((key: Direction) => this.walls[key] === false)
 }
 
 export const cellFactory = (coord: ICoord) => new Cell(coord)
