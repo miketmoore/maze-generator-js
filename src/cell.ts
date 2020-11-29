@@ -1,4 +1,3 @@
-import { ICoord } from './coord'
 import { Direction } from './direction'
 
 export interface ICell {
@@ -8,7 +7,6 @@ export interface ICell {
   readonly markVisited: () => void
   readonly isVisited: () => boolean
   readonly getOppositeWall: (wall: number) => number
-  readonly getCoord: () => ICoord
   readonly markPopped: () => void
   readonly isPopped: () => boolean
   readonly isCarved: () => boolean
@@ -27,11 +25,6 @@ class Cell implements ICell {
   }
   private visited = false
   private start = false
-  private coord: ICoord
-
-  constructor(coord: ICoord) {
-    this.coord = coord
-  }
 
   public isPopped = () => this.popped
   public markPopped = () => (this.popped = true)
@@ -50,7 +43,6 @@ class Cell implements ICell {
     }
     return 1
   }
-  public getCoord = () => this.coord
   public isCarved = () =>
     Object.keys(this.walls).some((key: Direction) => this.walls[key] === false)
   public carveWall = (direction: Direction) => {
@@ -59,4 +51,4 @@ class Cell implements ICell {
   }
 }
 
-export const cellFactory = (coord: ICoord) => new Cell(coord)
+export const cellFactory = () => new Cell()
