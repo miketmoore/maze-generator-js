@@ -2,8 +2,6 @@ import { Direction } from './direction'
 
 export interface ICell {
   readonly getWalls: () => Walls
-  readonly markStart: () => void
-  readonly isStart: () => boolean
   readonly markVisited: () => void
   readonly isVisited: () => boolean
   readonly getOppositeWall: (wall: number) => number
@@ -24,14 +22,11 @@ class Cell implements ICell {
     west: true
   }
   private visited = false
-  private start = false
 
   public isPopped = () => this.popped
   public markPopped = () => (this.popped = true)
   public getWalls = () => this.walls
   public markVisited = () => (this.visited = true)
-  public markStart = () => (this.start = true)
-  public isStart = () => this.start
   public isVisited = () => this.visited
   public getOppositeWall = (wall: number) => {
     if (wall === 0) {
